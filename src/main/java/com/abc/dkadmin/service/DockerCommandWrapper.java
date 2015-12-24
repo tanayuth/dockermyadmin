@@ -27,5 +27,53 @@ public class DockerCommandWrapper {
         return result;
     }
 
+    public String lisAllDockerContainer() {
+        String result = unixProcessor.executeCommand("docker ps -a");
+        log.info("List all docker containers.");
+        log.info("Result : " + result);
+        return result;
+    }
+
+    public String lisAllDockerActiveContainer() {
+        String result = unixProcessor.executeCommand("docker ps");
+        log.info("List all active containers.");
+        log.info("Result : " + result);
+        return result;
+    }
+
+    public String removeDockerImage(String imageName) {
+        String result = unixProcessor.executeCommand("docker rmi " + imageName);
+        log.info("Delete image : {} .", imageName);
+        log.info("Result : " + result);
+        return result;
+    }
+
+    public String removeDockerContainer(String containerId) {
+        String result = unixProcessor.executeCommand("docker rm " + containerId);
+        log.info("Delete container : {} .", containerId);
+        log.info("Result : " + result);
+        return result;
+    }
+
+    public String startDockerContainer(String containerId) {
+        String result = unixProcessor.executeCommand("docker start " + containerId);
+        log.info("Start container : {} .", containerId);
+        log.info("Result : " + result);
+        return result;
+    }
+
+    public String stopDockerContainer(String containerId) {
+        String result = unixProcessor.executeCommand("docker stop " + containerId);
+        log.info("Stop container : {} .", containerId);
+        log.info("Result : " + result);
+        return result;
+    }
+
+    public String listAllPortOfContainer(String containerId) {
+        String result = unixProcessor.executeCommand("docker port " + containerId);
+        log.info("List port of container : {} .", containerId);
+        log.info("Result : " + result);
+        return result;
+    }
 
 }
