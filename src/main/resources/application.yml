@@ -1,0 +1,22 @@
+spring:
+    application:
+        name: DockerMyAdmin
+    freemarker:
+        cache: false # This should be set to true in production.
+    mvc:
+        date-format: yyyy-MM-dd'T'HH:mm:ss.SSSZ
+    jackson:
+        date-format: yyyy-MM-dd'T'HH:mm:ss.SSSZ # Controls the date format in the REST api and where Jackson is used by Spring.
+    datasource:
+            Url               : jdbc:mysql://localhost/dockermyadmin?useUnicode=true&amp;characterEncoding=UTF-8
+            username          : dkadmin
+            password          : pingu123
+            driver-class-name : com.mysql.jdbc.Driver
+
+server:
+    port: 8080
+
+liquibase:
+    change-log: classpath:/db/changelog/dkmyadmin.db.changelog.xml
+    drop-first: false
+    enabled: true
