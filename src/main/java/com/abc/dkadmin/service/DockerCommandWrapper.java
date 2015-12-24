@@ -20,21 +20,21 @@ public class DockerCommandWrapper {
         return result;
     }
 
-    public String lisAllDockerImages() {
+    public String listAllDockerImages() {
         String result = unixProcessor.executeCommand("docker images ");
         log.info("List all docker images.");
         log.info("Result : " + result);
         return result;
     }
 
-    public String lisAllDockerContainer() {
+    public String listAllDockerContainer() {
         String result = unixProcessor.executeCommand("docker ps -a");
         log.info("List all docker containers.");
         log.info("Result : " + result);
         return result;
     }
 
-    public String lisAllDockerActiveContainer() {
+    public String listAllDockerActiveContainer() {
         String result = unixProcessor.executeCommand("docker ps");
         log.info("List all active containers.");
         log.info("Result : " + result);

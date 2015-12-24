@@ -19,9 +19,9 @@ public class DockerCommandWrapperTest {
     @Test
     public void testPullDockerImage() throws Exception {
         //dockerCommandWrapper.pullDockerImage("tozd/mongodb");
-        //dockerCommandWrapper.lisAllDockerImages();
-        //dockerCommandWrapper.lisAllDockerContainer();
-        //dockerCommandWrapper.lisAllDockerActiveContainer();
+        //dockerCommandWrapper.listAllDockerImages();
+        //dockerCommandWrapper.listAllDockerContainer();
+        //dockerCommandWrapper.listAllDockerActiveContainer();
         //dockerCommandWrapper.removeDockerImage("63949f45e5d2");
         //dockerCommandWrapper.stopDockerContainer("dd30d683fe4a");
         //dockerCommandWrapper.startDockerContainer("dd30d683fe4a");

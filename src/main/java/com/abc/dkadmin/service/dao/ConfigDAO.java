@@ -54,7 +54,7 @@ public class ConfigDAO {
         return model;
     }
 
-    public ConfigModel getById(long id) {
+    public ConfigModel findById(long id) {
 
         ConfigModel configModel;
         String sql = "SELECT id, " + COLUMN_NO_ID + " FROM config where id = ?";
@@ -67,7 +67,7 @@ public class ConfigDAO {
         return configModel;
     }
 
-    public ConfigModel getByContainerId(String containerId) {
+    public ConfigModel findByContainerId(String containerId) {
         ConfigModel configModel;
         String sql = "SELECT id, " + COLUMN_NO_ID + " FROM config where containerid = ?";
         try {
@@ -79,7 +79,7 @@ public class ConfigDAO {
         return configModel;
     }
 
-    public List<ConfigModel> getByName(String name) {
+    public List<ConfigModel> findByName(String name) {
 
         String sql = "SELECT id, " + COLUMN_NO_ID + " FROM config where name = ?";
         try {

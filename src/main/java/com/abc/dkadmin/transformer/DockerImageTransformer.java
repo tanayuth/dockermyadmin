@@ -4,12 +4,14 @@ import com.abc.dkadmin.model.ImageModel;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
+@Service
 public class DockerImageTransformer {
 
     private static final Logger log = LoggerFactory.getLogger(DockerImageTransformer.class);

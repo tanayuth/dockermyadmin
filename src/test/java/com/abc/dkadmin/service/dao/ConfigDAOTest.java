@@ -5,7 +5,6 @@ import com.abc.dkadmin.model.ConfigModel;
 import org.joda.time.DateTime;
 import org.junit.Assert;
 import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -42,7 +41,7 @@ public class ConfigDAOTest {
         configModel.setContainerId("containerID2");
         configDAO.update(configModel);
 
-        newModel = configDAO.getById(0L);
+        newModel = configDAO.findById(0L);
         Assert.assertEquals(0L, newModel.getId());
         Assert.assertEquals("docker2", newModel.getName());
         Assert.assertEquals("containerID2", newModel.getContainerId());
@@ -50,7 +49,7 @@ public class ConfigDAOTest {
         Assert.assertEquals("2015-01-01", newModel.getModifiedTime().toString("yyyy-MM-dd"));
         Assert.assertEquals("2015-01-01", newModel.getCreatedTime().toString("yyyy-MM-dd"));
 
-        newModel = configDAO.getByContainerId("containerID2");
+        newModel = configDAO.findByContainerId("containerID2");
         Assert.assertEquals(0L, newModel.getId());
         Assert.assertEquals("docker2", newModel.getName());
         Assert.assertEquals("containerID2", newModel.getContainerId());
@@ -66,8 +65,8 @@ public class ConfigDAOTest {
         sameNameModel.setCreatedTime(new DateTime("2015-01-01"));
 
         configDAO.insert(sameNameModel);
-        Assert.assertEquals(2, configDAO.getByName("docker2").size());
-        Assert.assertEquals(0, configDAO.getByName("docker1").size());
+        Assert.assertEquals(2, configDAO.findByName("docker2").size());
+        Assert.assertEquals(0, configDAO.findByName("docker1").size());
     }
 
 }
