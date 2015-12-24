@@ -22,8 +22,7 @@ public class UnixProcessor {
 
         //Authorize super user
         PrintWriter writer = new PrintWriter(new OutputStreamWriter(process.getOutputStream()));
-//        writer.println(dockerMyAdminProperties.getSuperUserPassword());
-        writer.println("natep'boat000");
+        writer.println(dockerMyAdminProperties.getSuperUserPassword());
         writer.flush();
 
         //Read console output
