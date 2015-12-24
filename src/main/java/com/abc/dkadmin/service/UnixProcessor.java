@@ -29,7 +29,7 @@ public class UnixProcessor {
         try (InputStreamReader in = new InputStreamReader(process.getInputStream());
              BufferedReader reader = new BufferedReader(in)) {
             StringBuilder stringBuilder = new StringBuilder();
-            reader.lines().forEach(stringBuilder::append);
+            reader.lines().forEach(line -> stringBuilder.append(line).append("\n"));
             return stringBuilder.toString();
         } catch (IOException e) {
             throw new DockerMyAdminException("error while execute command line", e);
