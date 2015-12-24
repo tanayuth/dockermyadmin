@@ -8,3 +8,6 @@ target/
 .springBeans
 .settings/*
 */.settings/*
+.mvn
+mvnw*
+
