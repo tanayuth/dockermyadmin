@@ -22,14 +22,15 @@ public class UnixProcessor {
 
         //Authorize super user
         PrintWriter writer = new PrintWriter(new OutputStreamWriter(process.getOutputStream()));
-        writer.println(dockerMyAdminProperties.getSuperUserPassword());
+//        writer.println(dockerMyAdminProperties.getSuperUserPassword());
+        writer.println("natep'boat000");
         writer.flush();
 
         //Read console output
         try (InputStreamReader in = new InputStreamReader(process.getInputStream());
              BufferedReader reader = new BufferedReader(in)) {
             StringBuilder stringBuilder = new StringBuilder();
-            reader.lines().forEach(stringBuilder::append);
+            reader.lines().forEach(line -> stringBuilder.append(line).append("\n"));
             return stringBuilder.toString();
         } catch (IOException e) {
             throw new DockerMyAdminException("error while execute command line", e);
