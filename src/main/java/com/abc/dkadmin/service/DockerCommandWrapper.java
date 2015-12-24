@@ -62,6 +62,13 @@ public class DockerCommandWrapper {
         return result;
     }
 
+    public String reStartDockerContainer(String containerId) {
+        String result = unixProcessor.executeCommand("docker restart " + containerId);
+        log.info("Re-start container : {} .", containerId);
+        log.info("Result : " + result);
+        return result;
+    }
+
     public String stopDockerContainer(String containerId) {
         String result = unixProcessor.executeCommand("docker stop " + containerId);
         log.info("Stop container : {} .", containerId);
