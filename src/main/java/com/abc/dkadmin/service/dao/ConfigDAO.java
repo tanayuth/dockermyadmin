@@ -79,6 +79,43 @@ public class ConfigDAO {
         return configModel;
     }
 
+    public boolean deleteById(long id) {
+        String sql = "DELETE FROM config WHERE id=?";
+        int row = jdbcTemplate.update(sql, id);
+        if (row > 0) {
+            log.debug("Config id {} was deleted", id);
+            return true;
+        } else {
+            log.debug("Config id {} was not found", id);
+            return false;
+        }
+    }
+
+    public boolean deleteByContainerId(String containerId) {
+        String sql = "DELETE FROM config WHERE containerid=?";
+        int row = jdbcTemplate.update(sql, containerId);
+        if (row > 0) {
+            log.debug("Containerid {} was deleted", containerId);
+            return true;
+        } else {
+            log.debug("Containerid {} was not found", containerId);
+            return false;
+        }
+    }
+
+    public boolean deleteByName(String name) {
+        String sql = "DELETE FROM config WHERE name=?";
+        int row = jdbcTemplate.update(sql, name);
+        if (row > 0) {
+            log.debug("Name {} was deleted", name);
+            return true;
+        } else {
+            log.debug("Name {} was not found", name);
+            return false;
+        }
+    }
+
+
     public List<ConfigModel> findByName(String name) {
 
         String sql = "SELECT id, " + COLUMN_NO_ID + " FROM config where name = ?";

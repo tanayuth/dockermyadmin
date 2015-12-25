@@ -2,9 +2,11 @@ package com.abc.dkadmin.service.dao;
 
 import com.abc.dkadmin.ConfigurationTest;
 import com.abc.dkadmin.model.ConfigModel;
+import jdk.nashorn.internal.runtime.regexp.joni.Config;
 import org.joda.time.DateTime;
 import org.junit.Assert;
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -41,8 +43,7 @@ public class ConfigDAOTest {
         configModel.setContainerId("containerID2");
         configDAO.update(configModel);
 
-        newModel = configDAO.findById(0L);
-        Assert.assertEquals(0L, newModel.getId());
+        newModel = configDAO.findById(newModel.getId());
         Assert.assertEquals("docker2", newModel.getName());
         Assert.assertEquals("containerID2", newModel.getContainerId());
         Assert.assertEquals("other", newModel.getOther());
@@ -50,7 +51,6 @@ public class ConfigDAOTest {
         Assert.assertEquals("2015-01-01", newModel.getCreatedTime().toString("yyyy-MM-dd"));
 
         newModel = configDAO.findByContainerId("containerID2");
-        Assert.assertEquals(0L, newModel.getId());
         Assert.assertEquals("docker2", newModel.getName());
         Assert.assertEquals("containerID2", newModel.getContainerId());
         Assert.assertEquals("other", newModel.getOther());
@@ -68,5 +68,27 @@ public class ConfigDAOTest {
         Assert.assertEquals(2, configDAO.findByName("docker2").size());
         Assert.assertEquals(0, configDAO.findByName("docker1").size());
     }
+
+    @Test
+    public void testDeleteRecordById() {
+        ConfigModel model = configDAO.insert(configModel);
+        Assert.assertTrue(configDAO.deleteById(model.getId()));
+        Assert.assertFalse(configDAO.deleteById(model.getId() + 1));
+    }
+
+    @Test
+    public void testDeleteRecordByContainerId() {
+        ConfigModel model = configDAO.insert(configModel);
+        Assert.assertTrue(configDAO.deleteByContainerId("containerID1"));
+        Assert.assertFalse(configDAO.deleteByContainerId("containerID1"));
+    }
+
+    @Test
+    public void testDeleteRecordByName() {
+        ConfigModel model = configDAO.insert(configModel);
+        Assert.assertTrue(configDAO.deleteByName("docker1"));
+        Assert.assertFalse(configDAO.deleteByName("docker1"));
+    }
+
 
 }
