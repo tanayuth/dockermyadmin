@@ -2,6 +2,7 @@ package com.abc.dkadmin.service.dao;
 
 import com.abc.dkadmin.ConfigurationTest;
 import com.abc.dkadmin.model.ConfigModel;
+import jdk.nashorn.internal.runtime.regexp.joni.Config;
 import org.joda.time.DateTime;
 import org.junit.Assert;
 import org.junit.Before;
@@ -68,5 +69,27 @@ public class ConfigDAOTest {
         Assert.assertEquals(2, configDAO.findByName("docker2").size());
         Assert.assertEquals(0, configDAO.findByName("docker1").size());
     }
+
+    @Test
+    public void testDeleteRecordById() {
+        ConfigModel model = configDAO.insert(configModel);
+        Assert.assertTrue(configDAO.deleteById(model.getId()));
+        Assert.assertFalse(configDAO.deleteById(model.getId() + 1));
+    }
+
+    @Test
+    public void testDeleteRecordByContainerId() {
+        ConfigModel model = configDAO.insert(configModel);
+        Assert.assertTrue(configDAO.deleteByContainerId("containerID1"));
+        Assert.assertFalse(configDAO.deleteByContainerId("containerID1"));
+    }
+
+    @Test
+    public void testDeleteRecordByName() {
+        ConfigModel model = configDAO.insert(configModel);
+        Assert.assertTrue(configDAO.deleteByName("docker1"));
+        Assert.assertFalse(configDAO.deleteByName("docker1"));
+    }
+
 
 }
