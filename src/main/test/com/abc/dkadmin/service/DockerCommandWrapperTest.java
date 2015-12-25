@@ -26,5 +26,6 @@ public class DockerCommandWrapperTest {
         //dockerCommandWrapper.stopDockerContainer("dd30d683fe4a");
         //dockerCommandWrapper.startDockerContainer("dd30d683fe4a");
         //dockerCommandWrapper.listAllPortOfContainer("dd30d683fe4a");
+        dockerCommandWrapper.getInformationOfImageOrContainer("dd30d683fe4a");
     }
 }
