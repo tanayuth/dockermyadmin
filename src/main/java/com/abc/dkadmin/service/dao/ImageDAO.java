@@ -42,4 +42,8 @@ public class ImageDAO {
                 .findFirst()
                 .orElse(null);
     }
+
+    public List<ImageModel> findAllImages() {
+        return dockerImageTransformer.transform(dockerCommandWrapper.listAllDockerImages());
+    }
 }
