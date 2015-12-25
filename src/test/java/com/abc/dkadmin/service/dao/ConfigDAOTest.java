@@ -6,6 +6,7 @@ import jdk.nashorn.internal.runtime.regexp.joni.Config;
 import org.joda.time.DateTime;
 import org.junit.Assert;
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -42,8 +43,7 @@ public class ConfigDAOTest {
         configModel.setContainerId("containerID2");
         configDAO.update(configModel);
 
-        newModel = configDAO.findById(0L);
-        Assert.assertEquals(0L, newModel.getId());
+        newModel = configDAO.findById(newModel.getId());
         Assert.assertEquals("docker2", newModel.getName());
         Assert.assertEquals("containerID2", newModel.getContainerId());
         Assert.assertEquals("other", newModel.getOther());
@@ -51,7 +51,6 @@ public class ConfigDAOTest {
         Assert.assertEquals("2015-01-01", newModel.getCreatedTime().toString("yyyy-MM-dd"));
 
         newModel = configDAO.findByContainerId("containerID2");
-        Assert.assertEquals(0L, newModel.getId());
         Assert.assertEquals("docker2", newModel.getName());
         Assert.assertEquals("containerID2", newModel.getContainerId());
         Assert.assertEquals("other", newModel.getOther());
