@@ -101,18 +101,27 @@
         </div>
     </section>
 
-    <!-- Portfolio -->
+    <!-- Docker image detail -->
     <section id="dockerImage1" class="two">
         <div class="container">
 
             <header>
+                <div align="right">
+                    <a href="" title="remove image">
+                        <span class="icon fa-times-circle-o"></span>
+                    </a>
+                </div>
                 <h2>chiwa/apache-php</h2>
             </header>
 
             <div class="row">
                 <div style="float: left;">
                     <article class="item">
-                        <div class="fit" style="background-color:#58ff8e;">Up 5 minutes</div>
+                        <a href="" title="remove container">
+                        <div class="fit" style="background-color:#58ff8e;padding-right: 10px" align="right">
+                            <span class="icon fa-times-circle-o"></span>
+                        </div>
+                            </a>
                         <header style="padding-left: 10px; padding-right: 10px">
                             <table style="text-align: left;">
                                 <tr>
@@ -134,7 +143,11 @@
                 </div>
                 <div style="float: left;">
                     <article class="item">
-                        <div class="fit" style="background-color:#ff919f;">Exited 1 minutes</div>
+                        <a href="" title="remove container">
+                        <div class="fit" style="background-color:#ff919f;padding-right: 10px" align="right">
+                            <span class="icon fa-times-circle-o"></span>
+                        </div>
+                            </a>
                         <header style="padding-left: 10px; padding-right: 10px">
                             <table style="text-align: left;">
                                 <tr>
@@ -156,7 +169,11 @@
                 </div>
                 <div style="float: left; ">
                     <article class="item">
-                        <div class="fit" style="background-color:#58ff8e;">Up 5 minutes</div>
+                        <a href="" title="remove container">
+                        <div class="fit" style="background-color:#58ff8e; padding-right: 10px" align="right">
+                            <span class="icon fa-times-circle-o"></span>
+                        </div>
+                            </a>
                         <header style="padding-left: 10px; padding-right: 10px">
                             <table style="text-align: left;">
                                 <tr>
