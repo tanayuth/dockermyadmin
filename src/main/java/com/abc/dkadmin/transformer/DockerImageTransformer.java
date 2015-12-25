@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -19,6 +20,9 @@ public class DockerImageTransformer {
     private static final String IN_COMMON_SPACE = "  ";
 
     public List<ImageModel> transform(String consoleOutput) {
+        if (StringUtils.isBlank(consoleOutput)) {
+            return Collections.emptyList();
+        }
         List<ImageModel> imageModelList = new ArrayList<>();
 
         //Split each image

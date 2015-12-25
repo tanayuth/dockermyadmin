@@ -14,6 +14,10 @@ import java.io.PrintWriter;
 @Component
 public class UnixProcessor {
 
+    private static final String INCORRECT_PASSWORD = "Sorry, try again.";
+
+    private static final String PASSWORD_FORM = "[sudo] password for";
+
     @Autowired
     private DockerMyAdminProperties dockerMyAdminProperties;
 
@@ -29,15 +33,32 @@ public class UnixProcessor {
         try (InputStreamReader in = new InputStreamReader(process.getInputStream());
              BufferedReader reader = new BufferedReader(in)) {
             StringBuilder stringBuilder = new StringBuilder();
-            reader.lines().forEach(line -> stringBuilder.append(line).append("\n"));
+            reader.lines()
+                    .forEach(line -> {
+
+                        //Terminate command when got incorrect password
+                        if (line.contains(INCORRECT_PASSWORD)) {
+                            process.destroy();
+                            throw new DockerMyAdminException("super user password is incorrect, terminated command: \""
+                                                                     + command + "\"");
+                        }
+
+                        //Remove password form input from console
+                        if (line.contains(PASSWORD_FORM)) {
+                            line = line.substring(line.indexOf(": ") + 1).trim();
+                        }
+                        stringBuilder.append(line).append("\n");
+                    });
+            process.destroy();
             return stringBuilder.toString();
         } catch (IOException e) {
+            process.destroy();
             throw new DockerMyAdminException("error while execute command line", e);
         }
     }
 
     private Process runProcess(String command) {
-        ProcessBuilder builder = new ProcessBuilder("sudo", "-S", "bash", "-c", command);
+        ProcessBuilder builder = new ProcessBuilder("sudo", "-S", "bash", "-c", command).redirectErrorStream(true);
         try {
             return builder.start();
         } catch (IOException e) {
