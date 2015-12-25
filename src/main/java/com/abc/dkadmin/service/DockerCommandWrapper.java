@@ -83,4 +83,12 @@ public class DockerCommandWrapper {
         return result;
     }
 
+    public String getInformationOfImageOrContainer(String imageOrContainerId) {
+        String result = unixProcessor.executeCommand("docker inspect " + imageOrContainerId);
+        log.info("Information of  image/container : {} .", imageOrContainerId);
+        log.info("Result : " + result);
+        return result;
+    }
+
+
 }
