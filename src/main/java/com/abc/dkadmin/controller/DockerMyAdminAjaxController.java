@@ -67,7 +67,7 @@ public class DockerMyAdminAjaxController {
         return null;
     }
 
-    @RequestMapping(value ="/image/delete",  method = RequestMethod.DELETE)
+    @RequestMapping(value = "/image/delete", method = RequestMethod.DELETE)
     @ResponseBody
     public void deleteImage(@RequestParam(value = "imagename") String imageName, HttpServletResponse response) {
         try {
@@ -103,9 +103,9 @@ public class DockerMyAdminAjaxController {
         return containerDAO.getContainerById(containerId);
     }
 
-    @RequestMapping(value = "/container/delete/{containerid}")
+    @RequestMapping(value = "/container/delete/{containerid}", method = RequestMethod.POST)
     @ResponseBody
-    public ContainerModel stopContainer(@PathVariable(value = "containerid") String containrId) {
+    public ContainerModel deleteContainer(@PathVariable(value = "containerid") String containrId) {
 
         String result = dockerCommandWrapper.removeDockerContainer(containrId);
         validateContainerResult(result, containrId);

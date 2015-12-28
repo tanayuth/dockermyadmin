@@ -3,6 +3,7 @@ spring:
         name: DockerMyAdmin
     freemarker:
         cache: false # This should be set to true in production.
+        template_update_delay: 0
     mvc:
         date-format: yyyy-MM-dd'T'HH:mm:ss.SSSZ
     jackson:

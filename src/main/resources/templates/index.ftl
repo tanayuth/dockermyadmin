@@ -32,6 +32,9 @@
     <div class="alert alert-danger" style="display: none;">
         <span id="alert-danger-message">alert msg will pop up here.. in case of danger</span>
     </div>
+    <div class="alert alert-danger2" style="display: none;">
+        <span id="alert-danger-message2">alert msg will pop up here.. in case of danger</span>
+    </div>
 </div>
 <body>
 <!-- Header -->
@@ -112,6 +115,7 @@
                 <a href="#" id="pullButton" class="button scrolly" onclick="pullImageAjaxCall();">Pull</a>
             </footer>
             <div id="loading" style="display: none"><img src="assets/css/images/waiting.gif">
+
                 <p>Polling docker image<br/></p>
             </div>
 
@@ -139,12 +143,14 @@
                                     <#if container.status?contains("Up")>
                                         <div class="fit" style="background-color:#58ff8e;padding-right: 10px"
                                              align="right">
-                                            <span class="icon fa-times-circle-o"></span>
+                                            <span class="icon fa-times-circle-o"
+                                                  onclick="deleteContainer('${container.id}')"></span>
                                         </div>
                                     <#else >
                                         <div class="fit" style="background-color:#ff919f;padding-right: 10px"
                                              align="right">
-                                            <span class="icon fa-times-circle-o"></span>
+                                            <span class="icon fa-times-circle-o"
+                                                  onclick="deleteContainer('${container.id}')"></span>
                                         </div>
                                     </#if>
                                 </a>
@@ -164,10 +170,10 @@
                                         </tr>
                                     </table>
                                     <#if container.status?contains("Up")>
-                                        <button>restart</button>
+                                        <button onclick="restartContainer('${container.id}')">restart</button>
                                         <button onclick="stopContainer('${container.id}')">stop</button>
                                     <#else>
-                                        <button>start</button>
+                                        <button onclick="startContainer('${container.id}')">start</button>
                                     </#if>
                                 </header>
                             </article>
@@ -234,10 +240,32 @@
 
 <script>
 
-    $('#pullImageForm').submit(function() {
+    $('#pullImageForm').submit(function () {
         pullImageAjaxCall();
         return false;
     });
+
+    function deleteContainer(containerId) {
+        var endpoint = "ajax/container/delete/" + containerId;
+        $.ajax({
+            url: endpoint,
+            type: "POST",
+            success: function (msg) {
+                $('#alert-success-message').text("Container id: " + msg.id + " deledted.");
+                $('.alert-success').fadeIn(1000, function () {
+                    $(this).delay(5000).fadeOut(1000, function () {
+                        window.location.reload(true);
+                    });
+                });
+            },
+            error: function (msg) {
+                $('#alert-danger-message').text(msg.responseText);
+                $('.alert-danger').fadeIn(1000, function () {
+                    $(this).delay(3000).fadeOut(1000);
+                });
+            }
+        });
+    }
 
     function pullImageAjaxCall() {
         if ($('#pullImage').val().length == 0) {
@@ -263,7 +291,8 @@
 
                 },
                 error: function (jqXHR) {
-                    var message = (jqXHR.responseText != null && jqXHR.responseText != "") ? jqXHR.responseText : jqXHR.statusText;
+                    var message = (jqXHR.responseText != null && jqXHR.responseText != "") ? jqXHR.responseText :
+                            jqXHR.statusText;
                     $("#pullButton").show();
                     $("#loading").hide();
                     $('#alert-danger-message').text(message);
@@ -283,7 +312,7 @@
             success: function (msg) {
                 $('#alert-success-message').text(msg);
                 $('.alert-success').fadeIn(1000, function () {
-                    $(this).delay(5000).fadeOut(1000, function() {
+                    $(this).delay(5000).fadeOut(1000, function () {
                         window.location.reload(true);
                     });
                 });
@@ -296,6 +325,53 @@
             }
         });
     }
+
+    function restartContainer(containerId) {
+        var endpoint = "ajax/container/restart/" + containerId;
+        $.ajax({
+            url: endpoint,
+            type: "POST",
+            success: function (msg) {
+                $('#alert-success-message').text("Container id: " + msg.id + " restarted.");
+                $('.alert-success').fadeIn(1000, function () {
+                    $(this).delay(5000).fadeOut(1000, function () {
+                        window.location.reload(true);
+                    });
+                });
+            },
+            error: function (msg) {
+                $('#alert-danger-message').text(msg.responseText);
+                $('.alert-danger').fadeIn(1000, function () {
+                    $(this).delay(3000).fadeOut(1000);
+                });
+            }
+
+        });
+    }
+
+    function startContainer(containerId) {
+        var endpoint = "ajax/container/start/" + containerId;
+        $.ajax({
+            url: endpoint,
+            type: "POST",
+            success: function (msg) {
+                $('#alert-success-message').text("Container id: " + msg.id + " started.");
+                $('.alert-success').fadeIn(1000, function () {
+                    $(this).delay(5000).fadeOut(1000, function () {
+                        window.location.reload(true);
+                    });
+                });
+            },
+            error: function (msg) {
+                $('#alert-danger-message').text(msg.responseText);
+                $('.alert-danger').fadeIn(1000, function () {
+                    $(this).delay(3000).fadeOut(1000);
+                });
+            }
+
+        });
+    }
+
     function deleteImage(imageName) {
         var endpoint = "ajax/image/delete?imagename=" + imageName;
         $.ajax({

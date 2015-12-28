@@ -39,7 +39,7 @@ public class DockerImageTransformer {
 
             //Set to model
             for (String field : imageFields) {
-                imageModel = setImageModelField(imageModel, imageFields.indexOf(field), field);
+                imageModel = setImageModelField(imageModel, imageFields.indexOf(field), field.trim());
             }
 
             //Add model to list

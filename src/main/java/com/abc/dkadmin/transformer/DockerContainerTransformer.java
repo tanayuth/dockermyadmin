@@ -43,10 +43,10 @@ public class DockerContainerTransformer {
                 if (StringUtils.isNotBlank(containerModel.getStatus()) &&
                         containerModel.getStatus().contains(EXITED_STATUS)) {
                     containerModel =
-                            setContainerModelField(containerModel, containerFields.indexOf(field), field, true);
+                            setContainerModelField(containerModel, containerFields.indexOf(field), field.trim(), true);
                 } else {
                     containerModel =
-                            setContainerModelField(containerModel, containerFields.indexOf(field), field, false);
+                            setContainerModelField(containerModel, containerFields.indexOf(field), field.trim(), false);
                 }
             }
 
@@ -60,29 +60,29 @@ public class DockerContainerTransformer {
                                                   boolean isExited) {
         switch (index) {
             case 0:
-                containerModel.setId(fieldValue.trim());
+                containerModel.setId(fieldValue);
                 break;
             case 1:
-                containerModel.setImage(fieldValue.trim());
+                containerModel.setImage(fieldValue);
                 break;
             case 2:
-                containerModel.setCommand(fieldValue.trim());
+                containerModel.setCommand(fieldValue);
                 break;
             case 3:
-                containerModel.setCreated(fieldValue.trim());
+                containerModel.setCreated(fieldValue);
                 break;
             case 4:
-                containerModel.setStatus(fieldValue.trim());
+                containerModel.setStatus(fieldValue);
                 break;
             case 5:
                 if (isExited) {
-                    containerModel.setName(fieldValue.trim());
+                    containerModel.setName(fieldValue);
                 } else {
-                    containerModel.setPorts(fieldValue.trim());
+                    containerModel.setPorts(fieldValue);
                 }
                 break;
             case 6:
-                containerModel.setName(fieldValue.trim());
+                containerModel.setName(fieldValue);
                 break;
             default:
                 log.info("field doesn't map with model");
