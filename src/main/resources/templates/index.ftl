@@ -101,7 +101,7 @@
             <header>
                 <h2 class="alt"><strong>Pull Docker Image here!!</strong></h2>
 
-                <p>Insert Docker Image name<br/></p>
+                <p>Insert Docker Image name, please wait.......<br/></p>
 
                 <form method="post" action="">
                     <input type="text" id="pullImage" name="pullImage" placeholder="Ex. devops/apache-php"/>
@@ -111,7 +111,9 @@
             <footer>
                 <a href="#" id="pullButton" class="button scrolly" onclick="pullImageAjaxCall();">Pull</a>
             </footer>
-            <div id="loading" style="display: none"><img src="assets/css/images/waiting.gif"> </div>
+            <div id="loading" style="display: none"><img src="assets/css/images/waiting.gif">
+                <p>Polling docker image<br/></p>
+            </div>
 
         </div>
     </section>
@@ -238,6 +240,7 @@
                 $(this).delay(5000).fadeOut(1000);
             });
         } else {
+            $("#loading").show();
             $("#pullButton").hide();
             var endpoint = "ajax/pullimage?imagename=" + $('#pullImage').val();
             $.ajax({
@@ -245,20 +248,26 @@
                 type: "POST",
                 success: function (msg) {
                     $("#pullButton").show();
+                    $("#loading").hide();
                     $('#alert-success-message').text(msg);
                     $('.alert-success').fadeIn(1000, function () {
                         $(this).delay(5000).fadeOut(1000);
+                        location.reload();
                     });
+
                 },
-                error: function (msg) {
+                error: function (jqXHR) {
+                    var message = (jqXHR.responseText != null && jqXHR.responseText != "") ? jqXHR.responseText : jqXHR.statusText;
                     $("#pullButton").show();
-                    $('#alert-success-danger').text(msg);
+                    $("#loading").hide();
+                    $('#alert-danger-message').text(message);
                     $('.alert-danger').fadeIn(1000, function () {
                         $(this).delay(5000).fadeOut(1000);
                     });
                 }
             });
         }
+
     }
     function stopContainer(containerId) {
         var endpoint = "ajax/container/stop?containerid=" + containerId;
