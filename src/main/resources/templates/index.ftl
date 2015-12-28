@@ -9,6 +9,7 @@
     <title>Docker My Admin</title>
     <meta charset="utf-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1"/>
+    <script src="assets/js/jquery.min.js"></script>
     <!--[if lte IE 8]>
     <script src="assets/js/ie/html5shiv.js"></script><![endif]-->
     <link rel="stylesheet" href="assets/css/main.css"/>
@@ -16,9 +17,52 @@
     <link rel="stylesheet" href="assets/css/ie8.css"/><![endif]-->
     <!--[if lte IE 9]>
     <link rel="stylesheet" href="assets/css/ie9.css"/><![endif]-->
-</head>
-<body>
 
+    <link rel="stylesheet" href="assets/css/styles.css"/>
+    <script>
+        function pullImageAjaxCall() {
+            alert($('#pullImage').val().length);
+            if ($('#pullImage').val().length == 0) {
+                $('#alert-danger-message').text("Pleas input docker image name !!!!");
+                $('.alert-danger').fadeIn(1000, function () {
+                    $(this).delay(5000).fadeOut(1000);
+                });
+            } else {
+                var endpoint = "ajax/pullimage?imagename=" + $('#pullImage').val();
+                $.ajax({
+                    url: endpoint,
+                    type: "POST",
+                    success: function (msg) {
+                        $('#alert-success-message').text(msg);
+                        $('.alert-success').fadeIn(1000, function () {
+                            $(this).delay(5000).fadeOut(1000);
+                        });
+                    },
+                    error: function (msg) {
+                        alert('error');
+                    }
+                });
+            }
+
+        }
+    </script>
+</head>
+<!--alert msg-->
+<div id="alert-message">
+    <div class="alert alert-warning" style="display: none;">
+        <span id="alert-warning-message">alert msg will pop up here.. in case of warning</span>
+    </div>
+    <div class="alert alert-success" style="display: none;">
+        <span id="alert-success-message">alert msg will pop up here.. in case of success</span>
+    </div>
+    <div class="alert alert-info" style="display: none;">
+        <span id="alert-info-message">alert msg will pop up here.. in case of info</span>
+    </div>
+    <div class="alert alert-danger" style="display: none;">
+        <span id="alert-danger-message">alert msg will pop up here.. in case of danger</span>
+    </div>
+</div>
+<body>
 <!-- Header -->
 <div id="header">
 
@@ -51,8 +95,10 @@
 
             -->
             <ul>
-                <li><a href="#top" id="top-link" class="skel-layers-ignoreHref"><span class="icon fa-home">Pull
-                    Docker Image</span></a>
+                <li><a href="#top" id="top-link" class="skel-layers-ignoreHref">
+                    <span class="icon fa-home">Pull
+                    Docker Image</span>
+                </a>
                 </li>
             <#list imageModelList as image>
                 <li><a href="#${image.imageId}" id="dockerImage1-link"
@@ -78,23 +124,21 @@
 
 <!-- Main -->
 <div id="main">
-
     <!-- Intro -->
     <section id="top" class="one dark cover">
         <div class="container">
-
             <header>
                 <h2 class="alt"><strong>Pull Docker Image here!!</strong></h2>
 
                 <p>Insert Docker Image name<br/></p>
 
                 <form method="post" action="">
-                    <input type="text" name="pullImage" placeholder="Ex. devops/apache-php"/>
+                    <input type="text" id="pullImage" name="pullImage" placeholder="Ex. devops/apache-php"/>
                 </form>
             </header>
 
             <footer>
-                <a href="#" class="button scrolly">Pull</a>
+                <a href="#" class="button scrolly" onclick="pullImageAjaxCall();">Pull</a>
             </footer>
 
         </div>

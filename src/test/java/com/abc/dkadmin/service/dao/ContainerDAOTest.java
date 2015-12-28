@@ -31,6 +31,10 @@ public class ContainerDAOTest {
 
     private DockerCommandWrapper dockerCommandWrapper;
 
+    private final String ALL_CONTAINER = "CONTAINER ID        IMAGE                     COMMAND                  CREATED              STATUS                          PORTS               NAMES\n" +
+            "f02b9cfcf9b3        windperson/docker-whale   \"/bin/sh -c '/usr/gam\"   About a minute ago   Exited (0) About a minute ago                       yuttana_v2\n" +
+            "ef4d37a69653        windperson/docker-whale   \"/bin/sh -c '/usr/gam\"   57 minutes ago       Exited (0) 57 minutes ago                           yuttana\n";
+
     @Before
     public void setUp() throws Exception {
         containerDAO = new ContainerDAO();
@@ -43,9 +47,7 @@ public class ContainerDAOTest {
 
     @Test
     public void testGetAllContainer() {
-        String ALL_CONTAINER = "CONTAINER ID        IMAGE                     COMMAND                  CREATED              STATUS                          PORTS               NAMES\n" +
-                "f02b9cfcf9b3        windperson/docker-whale   \"/bin/sh -c '/usr/gam\"   About a minute ago   Exited (0) About a minute ago                       yuttana_v2\n" +
-                "ef4d37a69653        windperson/docker-whale   \"/bin/sh -c '/usr/gam\"   57 minutes ago       Exited (0) 57 minutes ago                           yuttana\n";
+
 
         Mockito.when(dockerCommandWrapper.listAllDockerContainer()).thenReturn(ALL_CONTAINER);
         List<ContainerModel> containers = containerDAO.getAllContainer();
@@ -89,6 +91,18 @@ public class ContainerDAOTest {
 
         Assert.assertTrue(containerDAO.deleteContainerByContainerId(containerId));
         Assert.assertFalse(containerDAO.deleteContainerByContainerId(wrongContainerId));
+    }
+
+    @Test
+    public void testGetContainerById() {
+        Mockito.when(dockerCommandWrapper.listAllDockerContainer()).thenReturn(ALL_CONTAINER);
+        Assert.assertEquals("f02b9cfcf9b3", containerDAO.getContainerById("f02b9cfcf9b3").getId());
+    }
+
+    @Test
+    public void testGetContainerByIdShouldReturnNull() {
+        Mockito.when(dockerCommandWrapper.listAllDockerContainer()).thenReturn(ALL_CONTAINER);
+        Assert.assertNull(containerDAO.getContainerById("noid"));
     }
 
 
