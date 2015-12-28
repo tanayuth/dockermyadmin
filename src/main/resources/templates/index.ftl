@@ -240,6 +240,7 @@
                 $(this).delay(5000).fadeOut(1000);
             });
         } else {
+            $("#loading").show();
             $("#pullButton").hide();
             var endpoint = "ajax/pullimage?imagename=" + $('#pullImage').val();
             $.ajax({
@@ -247,20 +248,26 @@
                 type: "POST",
                 success: function (msg) {
                     $("#pullButton").show();
+                    $("#loading").hide();
                     $('#alert-success-message').text(msg);
                     $('.alert-success').fadeIn(1000, function () {
                         $(this).delay(5000).fadeOut(1000);
+                        location.reload();
                     });
+
                 },
-                error: function (msg) {
+                error: function (jqXHR) {
+                    var message = (jqXHR.responseText != null && jqXHR.responseText != "") ? jqXHR.responseText : jqXHR.statusText;
                     $("#pullButton").show();
-                    $('#alert-success-danger').text(msg);
+                    $("#loading").hide();
+                    $('#alert-danger-message').text(message);
                     $('.alert-danger').fadeIn(1000, function () {
                         $(this).delay(5000).fadeOut(1000);
                     });
                 }
             });
         }
+
     }
 </script>
 </body>
