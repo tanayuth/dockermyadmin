@@ -4,8 +4,10 @@ import com.abc.dkadmin.exception.ContainerConflictException;
 import com.abc.dkadmin.exception.ContainerNotFoundException;
 import com.abc.dkadmin.exception.DockerMyAdminException;
 import com.abc.dkadmin.model.ContainerModel;
+import com.abc.dkadmin.model.ImageModel;
 import com.abc.dkadmin.service.DockerCommandWrapper;
 import com.abc.dkadmin.service.dao.ContainerDAO;
+import com.abc.dkadmin.service.dao.ImageDAO;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,6 +30,9 @@ public class DockerMyAdminAjaxController {
 
     @Autowired
     private DockerCommandWrapper dockerCommandWrapper;
+
+    @Autowired
+    private ImageDAO imageDAO;
 
     private ContainerDAO containerDAO;
 
@@ -59,7 +64,6 @@ public class DockerMyAdminAjaxController {
     public String stopContainer(@RequestParam(value = "containerid") String containerId, HttpServletResponse response) {
         try {
             dockerCommandWrapper.stopDockerContainer(containerId);
-            Thread.sleep(3000);
             return "Container id: " + containerId + " stopped.";
         } catch (Exception ex) {
             handleErrorResponse(response, HttpStatus.BAD_REQUEST.value(), "Can not stop container id: " + containerId);
@@ -121,5 +125,30 @@ public class DockerMyAdminAjaxController {
             throw new ContainerNotFoundException(containerId);
         }
         return true;
+    }
+
+    @RequestMapping(value ="/createcontainer",  method = RequestMethod.POST)
+    @ResponseBody
+    public String createContainer(@RequestParam(value = "imageid") String imageId,
+                                  @RequestParam(value = "parameter") String parameter,
+                                  HttpServletResponse response) {
+        try {
+            ImageModel imageModel = imageDAO.findByImageId(imageId);
+            log.debug("Image model {} ", imageModel);
+            log.debug("Command {} ", parameter);
+            if (imageModel == null) {
+                handleErrorResponse(response, HttpStatus.BAD_REQUEST.value(), "Can not found image : " + imageId );
+                return null;
+            }
+            String result = dockerCommandWrapper.createDockerContainer(parameter, imageId);
+            if (result.toLowerCase().contains("error")) {
+                handleErrorResponse(response, HttpStatus.BAD_REQUEST.value(), result);
+                return null;
+            }
+            return "Create containner for image = " + imageId + " Success. ";
+        } catch (Exception ex) {
+            handleErrorResponse(response, HttpStatus.BAD_REQUEST.value(), "Can not create container for image " + imageId + ", " + ex.getMessage());
+            return null;
+        }
     }
 }
