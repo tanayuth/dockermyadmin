@@ -64,27 +64,36 @@ public class DockerMyAdminAjaxController {
         }
     }
 
-    @RequestMapping(value = "/startcontainer", method = RequestMethod.POST)
+    @RequestMapping(value = "/start/{containerid}", method = RequestMethod.POST)
     @ResponseBody
-    public ContainerModel startContainer(@RequestParam(value = "containerId") String containerId) {
+    public ContainerModel startContainer(@PathVariable(value = "containerid") String containerId) {
         String result = dockerCommandWrapper.startDockerContainer(containerId);
         validateContainerResult(result, containerId);
         return containerDAO.getContainerById(containerId);
     }
 
-    private boolean validateContainerResult(String resultMessage, String containerId) {
-
-        if (resultMessage.contains("Error")) {
-            throw new ContainerNotFoundException(containerId);
-        }
-        return true;
-    }
-
-    @RequestMapping(value = "/restartcontainer", method = RequestMethod.POST)
+    @RequestMapping(value = "/restart/{containerid}", method = RequestMethod.POST)
     @ResponseBody
-    public ContainerModel restartContainer(@RequestParam(value = "containerId") String containerId) {
+    public ContainerModel restartContainer(@PathVariable(value = "containerid") String containerId) {
         String result = dockerCommandWrapper.reStartDockerContainer(containerId);
         validateContainerResult(result, containerId);
         return containerDAO.getContainerById(containerId);
+    }
+
+    @RequestMapping(value = "/stop/{containerid}")
+    @ResponseBody
+    public ContainerModel stopContainer(@PathVariable(value = "containerid") String containrId) {
+
+        String result = dockerCommandWrapper.stopDockerContainer(containrId);
+        validateContainerResult(result, containrId);
+        return containerDAO.getContainerById(containrId);
+    }
+
+    private boolean validateContainerResult(String resultMessage, String containerId) {
+
+        if (resultMessage.toLowerCase().contains("error")) {
+            throw new ContainerNotFoundException(containerId);
+        }
+        return true;
     }
 }
