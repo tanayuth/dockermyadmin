@@ -103,7 +103,7 @@
 
                 <p>Insert Docker Image name, please wait.......<br/></p>
 
-                <form method="post" action="">
+                <form method="post" id="pullImageForm">
                     <input type="text" id="pullImage" name="pullImage" placeholder="Ex. devops/apache-php"/>
                 </form>
             </header>
@@ -233,6 +233,12 @@
 <script src="assets/js/main.js"></script>
 
 <script>
+
+    $('#pullImageForm').submit(function() {
+        pullImageAjaxCall();
+        return false;
+    });
+
     function pullImageAjaxCall() {
         if ($('#pullImage').val().length == 0) {
             $('#alert-warning-message').text("Pleas input docker image name !!!!");
