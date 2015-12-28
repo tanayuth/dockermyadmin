@@ -64,7 +64,6 @@ public class DockerMyAdminAjaxController {
     public String stopContainer(@RequestParam(value = "containerid") String containerId, HttpServletResponse response) {
         try {
             dockerCommandWrapper.stopDockerContainer(containerId);
-            Thread.sleep(3000);
             return "Container id: " + containerId + " stopped.";
         } catch (Exception ex) {
             handleErrorResponse(response, HttpStatus.BAD_REQUEST.value(), "Can not stop container id: " + containerId);
@@ -141,7 +140,7 @@ public class DockerMyAdminAjaxController {
                 handleErrorResponse(response, HttpStatus.BAD_REQUEST.value(), "Can not found image : " + imageId );
                 return null;
             }
-            String result = dockerCommandWrapper.createDockerContainer(parameter);
+            String result = dockerCommandWrapper.createDockerContainer(parameter, imageId);
             if (result.toLowerCase().contains("error")) {
                 handleErrorResponse(response, HttpStatus.BAD_REQUEST.value(), result);
                 return null;
