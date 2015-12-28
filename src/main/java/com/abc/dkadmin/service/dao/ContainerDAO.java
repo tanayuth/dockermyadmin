@@ -40,4 +40,12 @@ public class ContainerDAO {
         return result.contains("Error") ? false : true;
     }
 
+    public ContainerModel getContainerById(String containerId) {
+        List<ContainerModel> containers = containerTransformer.transform(commandWrapper.listAllDockerContainer());
+        return containers.stream()
+                .filter(containerModel -> containerModel.getId().equals(containerId))
+                .findFirst()
+                .orElse(null);
+    }
+
 }
