@@ -54,12 +54,11 @@
                 <li><a href="#top" id="top-link" class="skel-layers-ignoreHref"><span class="icon fa-home">Pull
                     Docker Image</span></a>
                 </li>
-                <li><a href="#dockerImage1" id="dockerImage1-link" class="skel-layers-ignoreHref"><span
-                        class="icon fa-th">chiwa/apache-php</span></a></li>
-                <li><a href="#dockerImage2" id="dockerImage1-link" class="skel-layers-ignoreHref"><span
-                        class="icon fa-th">Stuff</span></a></li>
-                <li><a href="#dockerImage3" id="dockerImage1-link" class="skel-layers-ignoreHref"><span
-                        class="icon fa-th">Goods</span></a></li>
+            <#list imageMap?keys as image>
+                <li><a href="#${image.repository?replace("/", "")}:${image.tag}" id="dockerImage1-link"
+                       class="skel-layers-ignoreHref"><span
+                        class="icon fa-th">${image.repository}:${image.tag}</span></a></li>
+            </#list>
             </ul>
         </nav>
 
@@ -101,6 +100,36 @@
         </div>
     </section>
 
+<#list imageMap?keys as image>
+    <section id="dockerImage1" class="two">
+        <div class="container">
+            <header>
+                <div align="right">
+                    <a href="" title="remove image">
+                        <span class="icon fa-times-circle-o"></span>
+                    </a>
+                </div>
+                <h2>chiwa/apache-php</h2>
+            </header>
+
+            <div class="row">
+                imageMap[image].id
+                imageMap[image].status
+                imageMap[image].name
+                imageMap[image].configuration
+                <div style="float: left;">
+                    <article class="item">
+                        <a href="">
+                            <div class="fit" style="background-color:#8cd8ff; padding-left: 20px; padding-right: 20px">
+                                <span class="icon fa-plus-circle"> Create new container</span>
+                            </div>
+                        </a>
+                    </article>
+                </div>
+            </div>
+        </div>
+    </section>
+</#list>
     <!-- Docker image detail -->
     <section id="dockerImage1" class="two">
         <div class="container">
@@ -118,10 +147,10 @@
                 <div style="float: left;">
                     <article class="item">
                         <a href="" title="remove container">
-                        <div class="fit" style="background-color:#58ff8e;padding-right: 10px" align="right">
-                            <span class="icon fa-times-circle-o"></span>
-                        </div>
-                            </a>
+                            <div class="fit" style="background-color:#58ff8e;padding-right: 10px" align="right">
+                                <span class="icon fa-times-circle-o"></span>
+                            </div>
+                        </a>
                         <header style="padding-left: 10px; padding-right: 10px">
                             <table style="text-align: left;">
                                 <tr>
@@ -144,10 +173,10 @@
                 <div style="float: left;">
                     <article class="item">
                         <a href="" title="remove container">
-                        <div class="fit" style="background-color:#ff919f;padding-right: 10px" align="right">
-                            <span class="icon fa-times-circle-o"></span>
-                        </div>
-                            </a>
+                            <div class="fit" style="background-color:#ff919f;padding-right: 10px" align="right">
+                                <span class="icon fa-times-circle-o"></span>
+                            </div>
+                        </a>
                         <header style="padding-left: 10px; padding-right: 10px">
                             <table style="text-align: left;">
                                 <tr>
@@ -170,10 +199,10 @@
                 <div style="float: left; ">
                     <article class="item">
                         <a href="" title="remove container">
-                        <div class="fit" style="background-color:#58ff8e; padding-right: 10px" align="right">
-                            <span class="icon fa-times-circle-o"></span>
-                        </div>
-                            </a>
+                            <div class="fit" style="background-color:#58ff8e; padding-right: 10px" align="right">
+                                <span class="icon fa-times-circle-o"></span>
+                            </div>
+                        </a>
                         <header style="padding-left: 10px; padding-right: 10px">
                             <table style="text-align: left;">
                                 <tr>
