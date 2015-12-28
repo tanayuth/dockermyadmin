@@ -66,9 +66,8 @@
 
             -->
             <ul>
-                <li><a href="#top" id="top-link" class="skel-layers-ignoreHref">
-                    <span class="icon fa-home">Pull
-                    Docker Image</span>
+                <li><a href="#top" id="top-link" onclick="gotoHomePage();" class="skel-layers-ignoreHref">
+                    <span class="icon fa-home">Pull Docker Image</span>
                 </a>
                 </li>
             <#list imageModelList as image>
@@ -98,6 +97,7 @@
     <!-- Intro -->
     <section id="top" class="one dark cover">
         <div class="container">
+            <div id="pullImageDiv">
             <header>
                 <h2 class="alt"><strong>Pull Docker Image here!!</strong></h2>
 
@@ -114,6 +114,26 @@
             <div id="loading" style="display: none"><img src="assets/css/images/waiting.gif">
                 <p>Polling docker image<br/></p>
             </div>
+            </div>
+
+            <div id="createContainerDiv" style="display: none">
+                <header>
+                    <h2 class="alt"><strong>Create Docker Container here!!</strong></h2>
+                    <p>docker run -d <br/></p>
+                    <form method="post" id="createContainerForm" onsubmit="return false">
+                        <input type="text" id="createContainer" name="createContainer" placeholder="Ex. -p 9001:8080 -p 50000:50000 -v /var/application/:/var/application_home"/>
+                    </form>
+                </header>
+
+                <footer>
+                    <a href="#" id="createContainerButton" class="button scrolly" onclick="createContainerAjaxCall();">Create Container</a>
+                </footer>
+                <div id="loading2" style="display: none">
+                    <img src="assets/css/images/waiting.gif">
+                    <p>Creating container, please wait.......<br/></p>
+                </div>
+            </div>
+
 
         </div>
     </section>
@@ -176,7 +196,7 @@
                 </#if>
                 <div style="float: left;">
                     <article class="item">
-                        <a href="">
+                        <a href="#top"  onclick="return createContainer('${image.imageId}');">
                             <div class="fit" style="background-color:#8cd8ff; padding-left: 20px; padding-right: 20px">
                                 <span class="icon fa-plus-circle"> Create new container</span>
                             </div>
@@ -313,6 +333,53 @@
     }
 
     var autoRefresh = setTimeout(function() {location.reload()}, 60000);
+
+    function createContainer(imageId) {
+        globalImageId = imageId;
+        $("#createContainerDiv").show();
+        $("#pullImageDiv").hide();
+    }
+
+    function gotoHomePage() {
+        $("#createContainerDiv").hide();
+        $("#pullImageDiv").show();
+    }
+
+    function createContainerAjaxCall() {
+        if ($('#createContainer').val().length == 0) {
+            $('#alert-warning-message').text("Pleas input parameter !!!!");
+            $('.alert-warning').fadeIn(1000, function () {
+                $(this).delay(5000).fadeOut(1000);
+            });
+        } else {
+            var endpoint = "ajax/createcontainer?imageid=" + globalImageId + "&parameter=" + $('#createContainer').val();
+            $("#loading2").show();
+            $("#createContainerButton").hide();
+            $.ajax({
+                url: endpoint,
+                type: "POST",
+                success: function (msg) {
+                    $("#loading2").hide();
+                    $("#createContainerButton").show();
+                    $('#alert-success-message').text(msg);
+                    $('.alert-success').fadeIn(1000, function () {
+                        $(this).delay(5000).fadeOut(1000, function () {
+                            location.reload();
+                        });
+                    });
+                },
+                error: function (jqXHR) {
+                    $("#loading2").hide();
+                    $("#createContainerButton").show();
+                    var message = (jqXHR.responseText != null && jqXHR.responseText != "") ? jqXHR.responseText : jqXHR.statusText;
+                    $('#alert-danger-message').text(message);
+                    $('.alert-danger').fadeIn(1000, function () {
+                        $(this).delay(3000).fadeOut(1000);
+                    });
+                }
+            });
+        }
+    }
 </script>
 </body>
 </html>
