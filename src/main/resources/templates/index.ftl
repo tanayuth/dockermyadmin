@@ -18,7 +18,6 @@
     <!--[if lte IE 9]>
     <link rel="stylesheet" href="assets/css/ie9.css"/><![endif]-->
 
-    <link rel="stylesheet" href="assets/css/styles.css"/>
     <script>
         function pullImageAjaxCall() {
             alert($('#pullImage').val().length);
@@ -101,7 +100,7 @@
                 </a>
                 </li>
             <#list imageModelList as image>
-                <li><a href="#${image.imageId}" id="dockerImage1-link"
+                <li><a href="#${image.imageId}" id="${image.imageId}-link"
                        class="skel-layers-ignoreHref"><span
                         class="icon fa-th">${image.repository}:${image.tag?trim}</span></a></li>
             </#list>
