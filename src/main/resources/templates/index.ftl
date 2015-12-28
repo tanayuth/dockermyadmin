@@ -145,6 +145,7 @@
             <footer>
                 <a href="#" id="pullButton" class="button scrolly" onclick="pullImageAjaxCall();">Pull</a>
             </footer>
+            <div id="loading"><img src="assets/css/images/waiting.gif"> </div>
 
         </div>
     </section>
@@ -187,7 +188,7 @@
                                         </tr>
                                         <tr>
                                             <td>Name:</td>
-                                            <td>${container.name}</td>
+                                            <td>${container.name!"Not Found"}</td>
                                         </tr>
                                         <tr>
                                             <td>Configuration:</td>
