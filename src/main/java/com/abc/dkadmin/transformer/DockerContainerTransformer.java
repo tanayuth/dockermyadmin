@@ -60,29 +60,29 @@ public class DockerContainerTransformer {
                                                   boolean isExited) {
         switch (index) {
             case 0:
-                containerModel.setId(fieldValue);
+                containerModel.setId(fieldValue.trim());
                 break;
             case 1:
-                containerModel.setImage(fieldValue);
+                containerModel.setImage(fieldValue.trim());
                 break;
             case 2:
-                containerModel.setCommand(fieldValue);
+                containerModel.setCommand(fieldValue.trim());
                 break;
             case 3:
-                containerModel.setCreated(fieldValue);
+                containerModel.setCreated(fieldValue.trim());
                 break;
             case 4:
-                containerModel.setStatus(fieldValue);
+                containerModel.setStatus(fieldValue.trim());
                 break;
             case 5:
                 if (isExited) {
-                    containerModel.setName(fieldValue);
+                    containerModel.setName(fieldValue.trim());
                 } else {
-                    containerModel.setPorts(fieldValue);
+                    containerModel.setPorts(fieldValue.trim());
                 }
                 break;
             case 6:
-                containerModel.setName(fieldValue);
+                containerModel.setName(fieldValue.trim());
                 break;
             default:
                 log.info("field doesn't map with model");

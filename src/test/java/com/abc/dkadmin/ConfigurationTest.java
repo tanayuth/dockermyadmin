@@ -1,6 +1,7 @@
 package com.abc.dkadmin;
 
 import com.abc.dkadmin.service.dao.ConfigDAO;
+import com.abc.dkadmin.transformer.DockerContainerTransformer;
 import com.mchange.v2.c3p0.ComboPooledDataSource;
 import liquibase.integration.spring.SpringLiquibase;
 import org.springframework.context.annotation.Bean;
@@ -28,6 +29,11 @@ public class ConfigurationTest {
         liquibase.setChangeLog("classpath:/db/changelog/dkmyadmin.db.changelog.xml");
         liquibase.setDropFirst(true);
         return liquibase;
+    }
+
+    @Bean
+    public DockerContainerTransformer dockerContainerTransformer() {
+        return new DockerContainerTransformer();
     }
 
     @Bean
