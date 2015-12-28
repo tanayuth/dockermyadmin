@@ -16,4 +16,11 @@ public class DockerMyAdminControllerAdvice {
     public ResponseEntity handleException(ContainerNotFoundException exception) {
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body(exception.getMessage());
     }
+
+    @ResponseBody
+    @ExceptionHandler(ContainerConflictException.class)
+    @ResponseStatus(HttpStatus.NOT_FOUND)
+    public ResponseEntity handleException(ContainerConflictException exception) {
+        return ResponseEntity.status(HttpStatus.CONFLICT).body(exception.getMessage());
+    }
 }
