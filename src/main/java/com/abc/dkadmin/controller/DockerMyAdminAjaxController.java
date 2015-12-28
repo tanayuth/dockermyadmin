@@ -1,5 +1,6 @@
 package com.abc.dkadmin.controller;
 
+import com.abc.dkadmin.exception.ContainerConflictException;
 import com.abc.dkadmin.exception.ContainerNotFoundException;
 import com.abc.dkadmin.exception.DockerMyAdminException;
 import com.abc.dkadmin.model.ContainerModel;
@@ -54,7 +55,7 @@ public class DockerMyAdminAjaxController {
         return null;
     }
 
-    @RequestMapping(value ="/container/stop",  method = RequestMethod.POST)
+    @RequestMapping(value = "/container/stop", method = RequestMethod.POST)
     @ResponseBody
     public String stopContainer(@RequestParam(value = "containerid") String containerId, HttpServletResponse response) {
         try {
@@ -77,7 +78,7 @@ public class DockerMyAdminAjaxController {
         }
     }
 
-    @RequestMapping(value = "/start/{containerid}", method = RequestMethod.POST)
+    @RequestMapping(value = "/container/start/{containerid}", method = RequestMethod.POST)
     @ResponseBody
     public ContainerModel startContainer(@PathVariable(value = "containerid") String containerId) {
         String result = dockerCommandWrapper.startDockerContainer(containerId);
@@ -85,7 +86,7 @@ public class DockerMyAdminAjaxController {
         return containerDAO.getContainerById(containerId);
     }
 
-    @RequestMapping(value = "/restart/{containerid}", method = RequestMethod.POST)
+    @RequestMapping(value = "/container/restart/{containerid}", method = RequestMethod.POST)
     @ResponseBody
     public ContainerModel restartContainer(@PathVariable(value = "containerid") String containerId) {
         String result = dockerCommandWrapper.reStartDockerContainer(containerId);
@@ -93,17 +94,20 @@ public class DockerMyAdminAjaxController {
         return containerDAO.getContainerById(containerId);
     }
 
-    @RequestMapping(value = "/stop/{containerid}")
+    @RequestMapping(value = "/container/delete/{containerid}")
     @ResponseBody
     public ContainerModel stopContainer(@PathVariable(value = "containerid") String containrId) {
 
-        String result = dockerCommandWrapper.stopDockerContainer(containrId);
+        String result = dockerCommandWrapper.removeDockerContainer(containrId);
         validateContainerResult(result, containrId);
         return containerDAO.getContainerById(containrId);
     }
 
     private boolean validateContainerResult(String resultMessage, String containerId) {
 
+        if (resultMessage.toLowerCase().contains("conflict")) {
+            throw new ContainerConflictException(containerId);
+        }
         if (resultMessage.toLowerCase().contains("error")) {
             throw new ContainerNotFoundException(containerId);
         }
