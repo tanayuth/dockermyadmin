@@ -17,45 +17,6 @@
     <link rel="stylesheet" href="assets/css/ie8.css"/><![endif]-->
     <!--[if lte IE 9]>
     <link rel="stylesheet" href="assets/css/ie9.css"/><![endif]-->
-
-    <script>
-        function pullImageAjaxCall() {
-            if ($('#pullImage').val().length == 0) {
-                $('#alert-warning-message').text("Pleas input docker image name !!!!");
-                $('.alert-warning').fadeIn(1000, function () {
-                    $(this).delay(5000).fadeOut(1000);
-                });
-            } else {
-                $("#loading").show();
-                $("#pullButton").hide();
-                var endpoint = "ajax/pullimage?imagename=" + $('#pullImage').val();
-                $.ajax({
-                    url: endpoint,
-                    type: "POST",
-                    success: function (msg) {
-                        $("#pullButton").show();
-                        $("#loading").hide();
-                        $('#alert-success-message').text(msg);
-                        $('.alert-success').fadeIn(1000, function () {
-                            $(this).delay(5000).fadeOut(1000);
-                            location.reload();
-                        });
-
-                    },
-                    error: function (jqXHR) {
-                        var message = (jqXHR.responseText != null && jqXHR.responseText != "") ? jqXHR.responseText : jqXHR.statusText;
-                        $("#pullButton").show();
-                        $("#loading").hide();
-                        $('#alert-danger-message').text(message);
-                        $('.alert-danger').fadeIn(1000, function () {
-                            $(this).delay(5000).fadeOut(1000);
-                        });
-                    }
-                });
-            }
-
-        }
-    </script>
 </head>
 <!--alert msg-->
 <div id="alert-message">
@@ -271,5 +232,36 @@
 <script src="assets/js/ie/respond.min.js"></script><![endif]-->
 <script src="assets/js/main.js"></script>
 
+<script>
+    function pullImageAjaxCall() {
+        if ($('#pullImage').val().length == 0) {
+            $('#alert-warning-message').text("Pleas input docker image name !!!!");
+            $('.alert-warning').fadeIn(1000, function () {
+                $(this).delay(5000).fadeOut(1000);
+            });
+        } else {
+            $("#pullButton").hide();
+            var endpoint = "ajax/pullimage?imagename=" + $('#pullImage').val();
+            $.ajax({
+                url: endpoint,
+                type: "POST",
+                success: function (msg) {
+                    $("#pullButton").show();
+                    $('#alert-success-message').text(msg);
+                    $('.alert-success').fadeIn(1000, function () {
+                        $(this).delay(5000).fadeOut(1000);
+                    });
+                },
+                error: function (msg) {
+                    $("#pullButton").show();
+                    $('#alert-success-danger').text(msg);
+                    $('.alert-danger').fadeIn(1000, function () {
+                        $(this).delay(5000).fadeOut(1000);
+                    });
+                }
+            });
+        }
+    }
+</script>
 </body>
 </html>
