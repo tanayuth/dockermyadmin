@@ -144,7 +144,7 @@
             <footer>
                 <a href="#" id="pullButton" class="button scrolly" onclick="pullImageAjaxCall();">Pull</a>
             </footer>
-            <div id="loading"><img src="assets/css/images/waiting.gif"> </div>
+            <div id="loading" style="display: none"><img src="assets/css/images/waiting.gif"> </div>
 
         </div>
     </section>
