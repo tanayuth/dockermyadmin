@@ -42,25 +42,25 @@ a:hover {
 }
 
 .txt-big {
-    font-family: 'Roboto Slab', serif, Arial;
+    font-family: 'FontAwesome','Roboto Slab', serif, Arial;
     font-size: 40px;
 }
 .txt-big2 {
-    font-family: 'Roboto Slab', serif, Arial;
+    font-family: 'FontAwesome','Roboto Slab', serif, Arial;
     font-size: 30px;
     font-weight: bold;
 }
 .txt-big3 {
-    font-family: 'Roboto Slab', serif, Arial;
+    font-family: 'FontAwesome','Roboto Slab', serif, Arial;
     font-size: 20px;
     font-weight: bold;
 }
 .txt-big4 {
-    font-family: 'Roboto Slab', serif, Arial;
+    font-family: 'FontAwesome','Roboto Slab', serif, Arial;
     font-size: 14px;
 }
 .txt-vip-big2 {
-    font-family: 'Lato', Arial, sans-serif;
+    font-family: 'FontAwesome','Lato', Arial, sans-serif;
     font-size: 30px;
     font-weight: normal;
 }
