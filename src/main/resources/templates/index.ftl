@@ -163,7 +163,7 @@
                                     </table>
                                     <#if container.status?contains("Up")>
                                         <button>restart</button>
-                                        <button>stop</button>
+                                        <button onclick="stopContainer('${container.id}')">stop</button>
                                     <#else>
                                         <button>start</button>
                                     </#if>
@@ -259,6 +259,27 @@
                 }
             });
         }
+    }
+    function stopContainer(containerId) {
+        var endpoint = "ajax/container/stop?containerid=" + containerId;
+        $.ajax({
+            url: endpoint,
+            type: "POST",
+            success: function (msg) {
+                $('#alert-success-message').text(msg);
+                $('.alert-success').fadeIn(1000, function () {
+                    $(this).delay(5000).fadeOut(1000, function() {
+                        window.location.reload(true);
+                    });
+                });
+            },
+            error: function (msg) {
+                $('#alert-danger-message').text(msg);
+                $('.alert-danger').fadeIn(1000, function () {
+                    $(this).delay(3000).fadeOut(1000);
+                });
+            }
+        });
     }
 </script>
 </body>

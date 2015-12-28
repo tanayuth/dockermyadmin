@@ -7,7 +7,6 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -36,6 +35,19 @@ public class DockerMyAdminAjaxController {
             return "Pull image " + imageName + " Success.";
         } catch (Exception ex) {
             handleErrorResponse(response, HttpStatus.BAD_REQUEST.value(), "Can not pull image " + imageName);
+        }
+        return null;
+    }
+
+    @RequestMapping(value ="/container/stop",  method = RequestMethod.POST)
+    @ResponseBody
+    public String stopContainer(@RequestParam(value = "containerid") String containerId, HttpServletResponse response) {
+        try {
+            dockerCommandWrapper.stopDockerContainer(containerId);
+            Thread.sleep(3000);
+            return "Container id: " + containerId + " stopped.";
+        } catch (Exception ex) {
+            handleErrorResponse(response, HttpStatus.BAD_REQUEST.value(), "Can not stop container id: " + containerId);
         }
         return null;
     }
