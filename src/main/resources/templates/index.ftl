@@ -123,7 +123,7 @@
         <div class="container">
             <header>
                 <div align="right">
-                    <a href="" title="remove image">
+                    <a href="" title="remove image" onclick="deleteImage('${image.repository}:${image.tag?trim}')">
                         <span class="icon fa-times-circle-o"></span>
                     </a>
                 </div>
@@ -284,6 +284,21 @@
             },
             error: function (msg) {
                 $('#alert-danger-message').text(msg);
+                $('.alert-danger').fadeIn(1000, function () {
+                    $(this).delay(3000).fadeOut(1000);
+                });
+            }
+        });
+    }
+    function deleteImage(imageName) {
+        var endpoint = "ajax/image/delete?imagename=" + imageName;
+        $.ajax({
+            url: endpoint,
+            type: "DELETE",
+            success: function () {
+            },
+            error: function () {
+                $('#alert-danger-message').text("Error: cannot delete image" + imageName);
                 $('.alert-danger').fadeIn(1000, function () {
                     $(this).delay(3000).fadeOut(1000);
                 });

@@ -19,7 +19,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.util.Optional;
 
 @Controller
 @RequestMapping(value = "/dockermyadmin/ajax")
@@ -66,6 +65,16 @@ public class DockerMyAdminAjaxController {
             handleErrorResponse(response, HttpStatus.BAD_REQUEST.value(), "Can not stop container id: " + containerId);
         }
         return null;
+    }
+
+    @RequestMapping(value ="/image/delete",  method = RequestMethod.DELETE)
+    @ResponseBody
+    public void deleteImage(@RequestParam(value = "imagename") String imageName, HttpServletResponse response) {
+        try {
+            dockerCommandWrapper.removeDockerImage(imageName);
+        } catch (Exception ex) {
+            handleErrorResponse(response, HttpStatus.BAD_REQUEST.value(), "Can not delete image name: " + imageName);
+        }
     }
 
     private void handleErrorResponse(HttpServletResponse response, int code, String message) {
