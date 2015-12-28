@@ -20,25 +20,30 @@
 
     <script>
         function pullImageAjaxCall() {
-            alert($('#pullImage').val().length);
             if ($('#pullImage').val().length == 0) {
-                $('#alert-danger-message').text("Pleas input docker image name !!!!");
-                $('.alert-danger').fadeIn(1000, function () {
+                $('#alert-warning-message').text("Pleas input docker image name !!!!");
+                $('.alert-warning').fadeIn(1000, function () {
                     $(this).delay(5000).fadeOut(1000);
                 });
             } else {
+                $("#pullButton").hide();
                 var endpoint = "ajax/pullimage?imagename=" + $('#pullImage').val();
                 $.ajax({
                     url: endpoint,
                     type: "POST",
                     success: function (msg) {
+                        $("#pullButton").show();
                         $('#alert-success-message').text(msg);
                         $('.alert-success').fadeIn(1000, function () {
                             $(this).delay(5000).fadeOut(1000);
                         });
                     },
                     error: function (msg) {
-                        alert('error');
+                        $("#pullButton").show();
+                        $('#alert-success-danger').text(msg);
+                        $('.alert-danger').fadeIn(1000, function () {
+                            $(this).delay(5000).fadeOut(1000);
+                        });
                     }
                 });
             }
@@ -137,8 +142,9 @@
             </header>
 
             <footer>
-                <a href="#" class="button scrolly" onclick="pullImageAjaxCall();">Pull</a>
+                <a href="#" id="pullButton" class="button scrolly" onclick="pullImageAjaxCall();">Pull</a>
             </footer>
+            <div id="loading"><img src="assets/css/images/waiting.gif"> </div>
 
         </div>
     </section>
@@ -181,7 +187,7 @@
                                         </tr>
                                         <tr>
                                             <td>Name:</td>
-                                            <td>${container.name}</td>
+                                            <td>${container.name!"Not Found"}</td>
                                         </tr>
                                         <tr>
                                             <td>Configuration:</td>

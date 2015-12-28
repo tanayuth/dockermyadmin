@@ -32,6 +32,7 @@ public class DockerMyAdminAjaxController {
         try {
             //String result = dockerCommandWrapper.pullDockerImage("eeacms/jenkins");
             //log.info(result);
+            Thread.sleep(10000);
             return "Pull image " + imageName + " Success.";
         } catch (Exception ex) {
             handleErrorResponse(response, HttpStatus.BAD_REQUEST.value(), "Can not pull image " + imageName);
