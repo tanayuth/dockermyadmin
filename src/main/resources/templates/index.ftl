@@ -123,7 +123,7 @@
         <div class="container">
             <header>
                 <div align="right">
-                    <a href="" title="remove image">
+                    <a href="" title="remove image" onclick="deleteImage('${image.repository}:${image.tag?trim}')">
                         <span class="icon fa-times-circle-o"></span>
                     </a>
                 </div>
@@ -165,7 +165,7 @@
                                     </table>
                                     <#if container.status?contains("Up")>
                                         <button>restart</button>
-                                        <button>stop</button>
+                                        <button onclick="stopContainer('${container.id}')">stop</button>
                                     <#else>
                                         <button>start</button>
                                     </#if>
@@ -268,6 +268,42 @@
             });
         }
 
+    }
+    function stopContainer(containerId) {
+        var endpoint = "ajax/container/stop?containerid=" + containerId;
+        $.ajax({
+            url: endpoint,
+            type: "POST",
+            success: function (msg) {
+                $('#alert-success-message').text(msg);
+                $('.alert-success').fadeIn(1000, function () {
+                    $(this).delay(5000).fadeOut(1000, function() {
+                        window.location.reload(true);
+                    });
+                });
+            },
+            error: function (msg) {
+                $('#alert-danger-message').text(msg);
+                $('.alert-danger').fadeIn(1000, function () {
+                    $(this).delay(3000).fadeOut(1000);
+                });
+            }
+        });
+    }
+    function deleteImage(imageName) {
+        var endpoint = "ajax/image/delete?imagename=" + imageName;
+        $.ajax({
+            url: endpoint,
+            type: "DELETE",
+            success: function () {
+            },
+            error: function () {
+                $('#alert-danger-message').text("Error: cannot delete image" + imageName);
+                $('.alert-danger').fadeIn(1000, function () {
+                    $(this).delay(3000).fadeOut(1000);
+                });
+            }
+        });
     }
 </script>
 </body>
