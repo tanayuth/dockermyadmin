@@ -17,35 +17,6 @@
     <link rel="stylesheet" href="assets/css/ie8.css"/><![endif]-->
     <!--[if lte IE 9]>
     <link rel="stylesheet" href="assets/css/ie9.css"/><![endif]-->
-
-    <link rel="stylesheet" href="assets/css/styles.css"/>
-    <script>
-        function pullImageAjaxCall() {
-            alert($('#pullImage').val().length);
-            if ($('#pullImage').val().length == 0) {
-                $('#alert-danger-message').text("Pleas input docker image name !!!!");
-                $('.alert-danger').fadeIn(1000, function () {
-                    $(this).delay(5000).fadeOut(1000);
-                });
-            } else {
-                var endpoint = "ajax/pullimage?imagename=" + $('#pullImage').val();
-                $.ajax({
-                    url: endpoint,
-                    type: "POST",
-                    success: function (msg) {
-                        $('#alert-success-message').text(msg);
-                        $('.alert-success').fadeIn(1000, function () {
-                            $(this).delay(5000).fadeOut(1000);
-                        });
-                    },
-                    error: function (msg) {
-                        alert('error');
-                    }
-                });
-            }
-
-        }
-    </script>
 </head>
 <!--alert msg-->
 <div id="alert-message">
@@ -100,12 +71,11 @@
                     Docker Image</span>
                 </a>
                 </li>
-                <li><a href="#dockerImage1" id="dockerImage1-link" class="skel-layers-ignoreHref"><span
-                        class="icon fa-th">chiwa/apache-php</span></a></li>
-                <li><a href="#dockerImage2" id="dockerImage1-link" class="skel-layers-ignoreHref"><span
-                        class="icon fa-th">Stuff</span></a></li>
-                <li><a href="#dockerImage3" id="dockerImage1-link" class="skel-layers-ignoreHref"><span
-                        class="icon fa-th">Goods</span></a></li>
+            <#list imageModelList as image>
+                <li><a href="#${image.imageId}" id="${image.imageId}-link"
+                       class="skel-layers-ignoreHref"><span
+                        class="icon fa-th">${image.repository}:${image.tag?trim}</span></a></li>
+            </#list>
             </ul>
         </nav>
 
@@ -131,7 +101,7 @@
             <header>
                 <h2 class="alt"><strong>Pull Docker Image here!!</strong></h2>
 
-                <p>Insert Docker Image name<br/></p>
+                <p>Insert Docker Image name, please wait.......<br/></p>
 
                 <form method="post" action="">
                     <input type="text" id="pullImage" name="pullImage" placeholder="Ex. devops/apache-php"/>
@@ -139,104 +109,71 @@
             </header>
 
             <footer>
-                <a href="#" class="button scrolly" onclick="pullImageAjaxCall();">Pull</a>
+                <a href="#" id="pullButton" class="button scrolly" onclick="pullImageAjaxCall();">Pull</a>
             </footer>
+            <div id="loading" style="display: none"><img src="assets/css/images/waiting.gif">
+                <p>Polling docker image<br/></p>
+            </div>
 
         </div>
     </section>
 
-    <!-- Docker image detail -->
-    <section id="dockerImage1" class="two">
+<#list imageModelList as image>
+    <section id="${image.imageId}" class="two">
         <div class="container">
-
             <header>
                 <div align="right">
                     <a href="" title="remove image">
                         <span class="icon fa-times-circle-o"></span>
                     </a>
                 </div>
-                <h2>chiwa/apache-php</h2>
+                <h2>${image.repository}:${image.tag?trim}</h2>
             </header>
 
             <div class="row">
-                <div style="float: left;">
-                    <article class="item">
-                        <a href="" title="remove container">
-                        <div class="fit" style="background-color:#58ff8e;padding-right: 10px" align="right">
-                            <span class="icon fa-times-circle-o"></span>
+                <#if imageMap[image.imageId]??>
+                    <#list imageMap[image.imageId] as container>
+                        <div style="float: left;">
+                            <article class="item">
+                                <a href="" title="remove container">
+                                    <#if container.status?contains("Up")>
+                                        <div class="fit" style="background-color:#58ff8e;padding-right: 10px"
+                                             align="right">
+                                            <span class="icon fa-times-circle-o"></span>
+                                        </div>
+                                    <#else >
+                                        <div class="fit" style="background-color:#ff919f;padding-right: 10px"
+                                             align="right">
+                                            <span class="icon fa-times-circle-o"></span>
+                                        </div>
+                                    </#if>
+                                </a>
+                                <header style="padding-left: 10px; padding-right: 10px">
+                                    <table style="text-align: left;">
+                                        <tr>
+                                            <td>Id:</td>
+                                            <td>${container.id}</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Name:</td>
+                                            <td>${container.name!"Not Found"}</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Configuration:</td>
+                                            <td>${container.configuration!""}</td>
+                                        </tr>
+                                    </table>
+                                    <#if container.status?contains("Up")>
+                                        <button>restart</button>
+                                        <button>stop</button>
+                                    <#else>
+                                        <button>start</button>
+                                    </#if>
+                                </header>
+                            </article>
                         </div>
-                            </a>
-                        <header style="padding-left: 10px; padding-right: 10px">
-                            <table style="text-align: left;">
-                                <tr>
-                                    <td>Id:</td>
-                                    <td>z0x2c5v8</td>
-                                </tr>
-                                <tr>
-                                    <td>Name:</td>
-                                    <td>container 1</td>
-                                </tr>
-                                <tr>
-                                    <td>Configuration:</td>
-                                    <td>-d -i -p 1234:80</td>
-                                </tr>
-                            </table>
-                            <button>stop</button>
-                        </header>
-                    </article>
-                </div>
-                <div style="float: left;">
-                    <article class="item">
-                        <a href="" title="remove container">
-                        <div class="fit" style="background-color:#ff919f;padding-right: 10px" align="right">
-                            <span class="icon fa-times-circle-o"></span>
-                        </div>
-                            </a>
-                        <header style="padding-left: 10px; padding-right: 10px">
-                            <table style="text-align: left;">
-                                <tr>
-                                    <td>Id:</td>
-                                    <td>8a6b4c</td>
-                                </tr>
-                                <tr>
-                                    <td>Name:</td>
-                                    <td>container 2</td>
-                                </tr>
-                                <tr>
-                                    <td>Configuration:</td>
-                                    <td>-d -i -p 8889:80</td>
-                                </tr>
-                            </table>
-                            <button>start</button>
-                        </header>
-                    </article>
-                </div>
-                <div style="float: left; ">
-                    <article class="item">
-                        <a href="" title="remove container">
-                        <div class="fit" style="background-color:#58ff8e; padding-right: 10px" align="right">
-                            <span class="icon fa-times-circle-o"></span>
-                        </div>
-                            </a>
-                        <header style="padding-left: 10px; padding-right: 10px">
-                            <table style="text-align: left;">
-                                <tr>
-                                    <td>Id:</td>
-                                    <td>1a2b3c</td>
-                                </tr>
-                                <tr>
-                                    <td>Name:</td>
-                                    <td>container 3</td>
-                                </tr>
-                                <tr>
-                                    <td>Configuration:</td>
-                                    <td>-d -i -p 9999:80</td>
-                                </tr>
-                            </table>
-                            <button>stop</button>
-                        </header>
-                    </article>
-                </div>
+                    </#list>
+                </#if>
                 <div style="float: left;">
                     <article class="item">
                         <a href="">
@@ -249,6 +186,7 @@
             </div>
         </div>
     </section>
+</#list>
 
     <div class="8u 12u$(mobile)" style="background-color:#ffffff; display: none">
         <form method="POST">
@@ -294,5 +232,43 @@
 <script src="assets/js/ie/respond.min.js"></script><![endif]-->
 <script src="assets/js/main.js"></script>
 
+<script>
+    function pullImageAjaxCall() {
+        if ($('#pullImage').val().length == 0) {
+            $('#alert-warning-message').text("Pleas input docker image name !!!!");
+            $('.alert-warning').fadeIn(1000, function () {
+                $(this).delay(5000).fadeOut(1000);
+            });
+        } else {
+            $("#loading").show();
+            $("#pullButton").hide();
+            var endpoint = "ajax/pullimage?imagename=" + $('#pullImage').val();
+            $.ajax({
+                url: endpoint,
+                type: "POST",
+                success: function (msg) {
+                    $("#pullButton").show();
+                    $("#loading").hide();
+                    $('#alert-success-message').text(msg);
+                    $('.alert-success').fadeIn(1000, function () {
+                        $(this).delay(5000).fadeOut(1000);
+                        location.reload();
+                    });
+
+                },
+                error: function (jqXHR) {
+                    var message = (jqXHR.responseText != null && jqXHR.responseText != "") ? jqXHR.responseText : jqXHR.statusText;
+                    $("#pullButton").show();
+                    $("#loading").hide();
+                    $('#alert-danger-message').text(message);
+                    $('.alert-danger').fadeIn(1000, function () {
+                        $(this).delay(5000).fadeOut(1000);
+                    });
+                }
+            });
+        }
+
+    }
+</script>
 </body>
 </html>
