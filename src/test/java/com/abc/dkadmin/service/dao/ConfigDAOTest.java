@@ -1,5 +1,6 @@
 package com.abc.dkadmin.service.dao;
 
+import com.abc.dkadmin.ConfigurationTest;
 import com.abc.dkadmin.configuration.DockerMyAdminConfiguration;
 import com.abc.dkadmin.model.ConfigModel;
 import org.joda.time.DateTime;
@@ -12,7 +13,7 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(classes = DockerMyAdminConfiguration.class)
+@ContextConfiguration(classes = ConfigurationTest.class)
 public class ConfigDAOTest {
 
     @Autowired
