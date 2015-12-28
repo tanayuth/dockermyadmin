@@ -118,7 +118,7 @@
 
             <div id="createContainerDiv" style="display: none">
                 <header>
-                    <h2 class="alt"><strong>Create Docker Container here!!</strong></h2>
+                    <h2 class="alt"><strong> <div id="containerDiv">Container Name</div></strong></h2>
                     <p>docker run -d <br/></p>
                     <form method="post" id="createContainerForm" onsubmit="return false">
                         <input type="text" id="createContainer" name="createContainer" placeholder="Ex. -p 9001:8080 -p 50000:50000 -v /var/application/:/var/application_home"/>
@@ -196,7 +196,7 @@
                 </#if>
                 <div style="float: left;">
                     <article class="item">
-                        <a href="#top"  onclick="return createContainer('${image.imageId}');">
+                        <a href="#top"  onclick="return createContainer('${image.imageId}', '${image.repository}:${image.tag?trim}');">
                             <div class="fit" style="background-color:#8cd8ff; padding-left: 20px; padding-right: 20px">
                                 <span class="icon fa-plus-circle"> Create new container</span>
                             </div>
@@ -334,8 +334,9 @@
 
     var autoRefresh = setTimeout(function() {location.reload()}, 60000);
 
-    function createContainer(imageId) {
+    function createContainer(imageId, containerName) {
         globalImageId = imageId;
+        $("#containerDiv").text("Create Docker Container : " + containerName);
         $("#createContainerDiv").show();
         $("#pullImageDiv").hide();
     }
