@@ -35,34 +35,6 @@ public class DockerMyAdminConfiguration {
     public DockerContainerTransformer dockerContainerTransformer(){
         return new DockerContainerTransformer();
     }
-
-    @Bean
-    public DataSource dataSource() throws PropertyVetoException {
-        ComboPooledDataSource dataSource = new ComboPooledDataSource();
-        dataSource.setDriverClass("org.hsqldb.jdbcDriver");
-        dataSource.setJdbcUrl("jdbc:hsqldb:mem://");
-        dataSource.setDataSourceName("a");
-        return dataSource;
-    }
-
-    @Bean
-    public SpringLiquibase liquibase(DataSource dataSource) {
-        SpringLiquibase liquibase = new SpringLiquibase();
-        liquibase.setDataSource(dataSource);
-        liquibase.setChangeLog("classpath:/db/changelog/dkmyadmin.db.changelog.xml");
-        liquibase.setDropFirst(true);
-        return liquibase;
-    }
-
-    @Bean
-    public ConfigDAO configDAO() {
-        return new ConfigDAO();
-    }
-
-//    @Bean
-//    public ContainerDAO containerDAO() {
-//        return new ContainerDAO();
-//    }
 }
 
 

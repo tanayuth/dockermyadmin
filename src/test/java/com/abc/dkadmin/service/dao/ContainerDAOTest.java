@@ -1,5 +1,6 @@
 package com.abc.dkadmin.service.dao;
 
+import com.abc.dkadmin.ConfigurationTest;
 import com.abc.dkadmin.configuration.DockerMyAdminConfiguration;
 import com.abc.dkadmin.model.ContainerModel;
 import com.abc.dkadmin.properties.DockerMyAdminProperties;
@@ -20,7 +21,7 @@ import java.util.List;
 import static org.junit.Assert.*;
 
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(classes = DockerMyAdminConfiguration.class)
+@ContextConfiguration(classes = ConfigurationTest.class)
 public class ContainerDAOTest {
 
     private ContainerDAO containerDAO;
