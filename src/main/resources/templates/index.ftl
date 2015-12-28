@@ -311,6 +311,8 @@
             }
         });
     }
+
+    var autoRefresh = setTimeout(function() {location.reload()}, 60000);
 </script>
 </body>
 </html>
