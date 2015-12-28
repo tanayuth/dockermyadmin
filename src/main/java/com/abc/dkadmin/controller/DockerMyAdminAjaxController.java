@@ -1,7 +1,10 @@
 package com.abc.dkadmin.controller;
 
+import com.abc.dkadmin.exception.ContainerNotFoundException;
 import com.abc.dkadmin.exception.DockerMyAdminException;
+import com.abc.dkadmin.model.ContainerModel;
 import com.abc.dkadmin.service.DockerCommandWrapper;
+import com.abc.dkadmin.service.dao.ContainerDAO;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,9 +17,10 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.util.Optional;
 
 @Controller
-@RequestMapping(value ="/dockermyadmin/ajax")
+@RequestMapping(value = "/dockermyadmin/ajax")
 public class DockerMyAdminAjaxController {
 
     private static final Logger log = LoggerFactory.getLogger(DockerMyAdminAjaxController.class);
@@ -24,10 +28,17 @@ public class DockerMyAdminAjaxController {
     @Autowired
     private DockerCommandWrapper dockerCommandWrapper;
 
-    @RequestMapping(value ="/pullimage",  method = RequestMethod.POST)
+    private ContainerDAO containerDAO;
+
+    @Autowired
+    public void setContainerDAO(ContainerDAO containerDAO) {
+        this.containerDAO = containerDAO;
+    }
+
+    @RequestMapping(value = "/pullimage", method = RequestMethod.POST)
     @ResponseBody
     public String pullImage(@RequestParam(value = "imagename") String imageName,
-                         HttpServletResponse response) {
+                            HttpServletResponse response) {
         try {
             String result = dockerCommandWrapper.pullDockerImage(imageName);
             log.info(result);
@@ -63,5 +74,29 @@ public class DockerMyAdminAjaxController {
         } catch (IOException ex) {
             throw new DockerMyAdminException("Something wrong with io", ex);
         }
+    }
+
+    @RequestMapping(value = "/startcontainer", method = RequestMethod.POST)
+    @ResponseBody
+    public ContainerModel startContainer(@RequestParam(value = "containerId") String containerId) {
+        String result = dockerCommandWrapper.startDockerContainer(containerId);
+        validateContainerResult(result, containerId);
+        return containerDAO.getContainerById(containerId);
+    }
+
+    private boolean validateContainerResult(String resultMessage, String containerId) {
+
+        if (resultMessage.contains("Error")) {
+            throw new ContainerNotFoundException(containerId);
+        }
+        return true;
+    }
+
+    @RequestMapping(value = "/restartcontainer", method = RequestMethod.POST)
+    @ResponseBody
+    public ContainerModel restartContainer(@RequestParam(value = "containerId") String containerId) {
+        String result = dockerCommandWrapper.reStartDockerContainer(containerId);
+        validateContainerResult(result, containerId);
+        return containerDAO.getContainerById(containerId);
     }
 }
