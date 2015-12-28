@@ -90,5 +90,12 @@ public class DockerCommandWrapper {
         return result;
     }
 
+    public String createDockerContainer(String param) {
+        String result = unixProcessor.executeCommand("docker run -d " + param);
+        log.info("create docker container run -d " + param);
+        log.info("Result : " + result);
+        return result;
+    }
+
 
 }
