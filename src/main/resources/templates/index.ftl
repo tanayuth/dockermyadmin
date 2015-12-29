@@ -134,6 +134,7 @@
                             <option value="1">Remove all unused containers (All stoped containers must be delete.)</option>
                             <option value="2">Remove none-ascii chars</option>
                             <option value="3">Remove all untaged images</option>
+                            <option value="4">Restart Docker Engine. (All active containers should be start automatically.)</option>
                         </select>
                     </form>
                 </header>

@@ -75,10 +75,13 @@ public class DockerMyAdminAjaxController {
                 case "3":
                     dockerCommandWrapper.deleteUntaggedImages();
                     break;
+                case "4":
+                    dockerCommandWrapper.restartDockerEngine();
+                    break;
             }
             return "Execute command success.";
         } catch (Exception ex) {
-            handleErrorResponse(response, HttpStatus.BAD_REQUEST.value(), "Can execute command ");
+            handleErrorResponse(response, HttpStatus.BAD_REQUEST.value(), "Can not execute command " + ex.getMessage());
         }
         return null;
     }
