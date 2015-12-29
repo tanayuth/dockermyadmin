@@ -48,13 +48,33 @@ public class DockerMyAdminAjaxController {
         try {
             String result = dockerCommandWrapper.pullDockerImage(imageName);
             log.info(result);
-            if (result.toLowerCase().contains("error") || result.toLowerCase().contains("Conflicting")) {
+            if (result.toLowerCase().contains("error") || result.toLowerCase().contains("Conflicting") || result.toLowerCase().contains("--help")) {
                 handleErrorResponse(response, HttpStatus.BAD_REQUEST.value(), result);
                 return null;
             }
             return "Pull image " + imageName + " Success. ";
         } catch (Exception ex) {
             handleErrorResponse(response, HttpStatus.BAD_REQUEST.value(), "Can not pull image " + imageName);
+        }
+        return null;
+    }
+
+    @RequestMapping(value = "/executecommand", method = RequestMethod.POST)
+    @ResponseBody
+    public String executeCommand(@RequestParam(value = "id") String id,
+                            HttpServletResponse response) {
+        try {
+          switch (id) {
+              case "1" : dockerCommandWrapper.deleteAllUnusedContainers();
+                         break;
+              case "2" : dockerCommandWrapper.deleteNoneAsciiChars();
+                          break;
+              case "3" : dockerCommandWrapper.deleteUntaggedImages();
+                         break;
+          }
+            return "Execute command success.";
+        } catch (Exception ex) {
+            handleErrorResponse(response, HttpStatus.BAD_REQUEST.value(), "Can execute command ");
         }
         return null;
     }

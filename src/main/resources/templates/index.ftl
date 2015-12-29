@@ -73,6 +73,11 @@
                     <span class="icon fa-home">Pull Docker Image</span>
                 </a>
                 </li>
+
+                <li><a href="#top" id="utility" onclick="showUtilityDiv();"
+                       class="skel-layers-ignoreHref"><span
+                        class="icon fa-cogs">Utility Commands</span></a></li>
+
             <#list imageModelList as image>
                 <li><a href="#${image.imageId}" id="${image.imageId}-link"
                        class="skel-layers-ignoreHref"><span
@@ -101,43 +106,69 @@
     <section id="top" class="one dark cover">
         <div class="container">
             <div id="pullImageDiv">
-            <header>
-                <h2 class="alt"><strong>Pull Docker Image here!!</strong></h2>
-
-                <p>Insert Docker Image name, please wait.......<br/></p>
-
-                <form method="post" id="pullImageForm">
-                    <input type="text" id="pullImage" name="pullImage" placeholder="Ex. devops/apache-php"/>
-                </form>
-            </header>
-
-            <footer>
-                <a href="#" id="pullButton" class="button scrolly" onclick="pullImageAjaxCall();">Pull</a>
-            </footer>
-            <div id="loading" style="display: none"><img src="assets/css/images/waiting.gif">
-
-                <p>Polling docker image<br/></p>
-            </div>
-            </div>
-
-            <div id="createContainerDiv" style="display: none">
                 <header>
-                    <h2 class="alt"><strong> <div id="containerDiv">Container Name</div></strong></h2>
-                    <p>docker run -d (exclude image name/id)<br/></p>
-                    <form method="post" id="createContainerForm" onsubmit="return false">
-                        <input type="text" id="createContainer" name="createContainer" placeholder="Ex. -p 9001:8080 -p 50000:50000 -v /var/application/:/var/application_home"/>
+                    <h2 class="alt"><strong>Pull Docker Image here!!</strong></h2>
+
+                    <p>Insert Docker Image name, please wait.......<br/></p>
+
+                    <form method="post" id="pullImageForm">
+                        <input type="text" id="pullImage" name="pullImage" placeholder="Ex. devops/apache-php"/>
                     </form>
                 </header>
 
                 <footer>
-                    <a href="#" id="createContainerButton" class="button scrolly" onclick="createContainerAjaxCall();">Create Container</a>
+                    <a href="#" id="pullButton" class="button scrolly" onclick="pullImageAjaxCall();">Pull</a>
                 </footer>
-                <div id="loading2" style="display: none">
-                    <img src="assets/css/images/waiting.gif">
-                    <p>Creating container, please wait.......<br/></p>
+                <div id="loading" style="display: none"><img src="assets/css/images/waiting.gif">
+
+                    <p>Polling docker image<br/></p>
                 </div>
             </div>
 
+            <div id="utilityCommandDiv" style="display: none">
+                <header>
+                    <h2 class="alt"><strong>Utility Commands</strong></h2>
+                    <form method="post" id="utilityCommandForm">
+                        <select id="utilityCommandDropdown">
+                            <option value="0">Please select command</option>
+                            <option value="1">Remove all unused containers (All stoped containers must be delete.)</option>
+                            <option value="2">Remove none-ascii chars</option>
+                            <option value="3">Remove all untaged images</option>
+                        </select>
+                    </form>
+                </header>
+
+                <footer>
+                    <a href="#" id="utilityCommandButton" class="button scrolly" onclick="utilityCommandAjaxCall();">Execute Command</a>
+                </footer>
+                <div id="utilityLoading" style="display: none"><img src="assets/css/images/waiting.gif">
+                    <p>Executing comand.<br/></p>
+                </div>
+            </div>
+
+            <div id="createContainerDiv" style="display: none">
+                <header>
+                    <h2 class="alt"><strong>
+                        <div id="containerDiv">Container Name</div>
+                    </strong></h2>
+                    <p>docker run -d (exclude image name/id)<br/></p>
+
+                    <form method="post" id="createContainerForm" onsubmit="return false">
+                        <input type="text" id="createContainer" name="createContainer"
+                               placeholder="Ex. -p 9001:8080 -p 50000:50000 -v /var/application/:/var/application_home"/>
+                    </form>
+                </header>
+
+                <footer>
+                    <a href="#" id="createContainerButton" class="button scrolly" onclick="createContainerAjaxCall();">Create
+                        Container</a>
+                </footer>
+                <div id="loading2" style="display: none">
+                    <img src="assets/css/images/waiting.gif">
+
+                    <p>Creating container, please wait.......<br/></p>
+                </div>
+            </div>
 
         </div>
     </section>
@@ -145,6 +176,7 @@
 <#list imageModelList as image>
     <section id="${image.imageId}" class="two">
         <div class="container">
+
             <header>
                 <div style="float: right;">
                     <a href="" title="remove image" onclick="deleteImage('${image.repository}:${image.tag?trim}')">
@@ -198,7 +230,8 @@
                 </#if>
                 <div style="float: left;">
                     <article class="item">
-                        <a href="#top"  onclick="return createContainer('${image.imageId}', '${image.repository}:${image.tag?trim}');">
+                        <a href="#top"
+                           onclick="return createContainer('${image.imageId}', '${image.repository}:${image.tag?trim}');">
                             <div class="fit" style="background-color:#8cd8ff; padding-left: 20px; padding-right: 20px">
                                 <span class="icon fa-plus-circle"> Create new container</span>
                             </div>
@@ -281,6 +314,43 @@
                 });
             }
         });
+    }
+
+    function utilityCommandAjaxCall() {
+        var id = $('#utilityCommandDropdown').val();
+        if (id == 0) {
+            $('#alert-warning-message').text("Please select command !!!!");
+            $('.alert-warning').fadeIn(500, function () {
+                $(this).delay(3000).fadeOut(500);
+            });
+        } else {
+            $('#utilityCommandButton').hide();
+            $('#utilityLoading').show();
+            var endpoint = "ajax/executecommand?id=" + id;
+            $.ajax({
+                url: endpoint,
+                type: "POST",
+                success: function (msg) {
+                    $('#utilityCommandButton').show();
+                    $('#utilityLoading').hide();
+                    $('#alert-success-message').text(msg);
+                    $('.alert-success').fadeIn(500, function () {
+                        $(this).delay(3000).fadeOut(500);
+                    });
+
+                },
+                error: function (jqXHR) {
+                    var message = (jqXHR.responseText != null && jqXHR.responseText != "") ? jqXHR.responseText :
+                            jqXHR.statusText;
+                    $('#utilityCommandButton').show();
+                    $('#utilityLoading').hide();
+                    $('#alert-danger-message').text(message);
+                    $('.alert-danger').fadeIn(500, function () {
+                        $(this).delay(3000).fadeOut(500);
+                    });
+                }
+            });
+        }
     }
 
     function pullImageAjaxCall() {
@@ -411,11 +481,19 @@
         $("#containerDiv").text("Create Docker Container : " + containerName);
         $("#createContainerDiv").show();
         $("#pullImageDiv").hide();
+        $("#utilityCommandDiv").hide();
     }
 
     function gotoHomePage() {
         $("#createContainerDiv").hide();
+        $("#utilityCommandDiv").hide();
         $("#pullImageDiv").show();
+    }
+
+    function showUtilityDiv() {
+        $("#utilityCommandDiv").show();
+        $("#createContainerDiv").hide();
+        $("#pullImageDiv").hide();
     }
 
     function createContainerAjaxCall() {
