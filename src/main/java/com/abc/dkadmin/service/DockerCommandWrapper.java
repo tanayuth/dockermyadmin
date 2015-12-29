@@ -14,6 +14,7 @@ public class DockerCommandWrapper {
 
     private static final Logger log = LoggerFactory.getLogger(DockerCommandWrapper.class);
 
+    @Autowired
     private DockerContainerTransformer containerTransformer;
 
     @Autowired
@@ -128,8 +129,8 @@ public class DockerCommandWrapper {
 
     public String restartDockerEngine() {
         List<ContainerModel> containerModelList = containerTransformer.transform(listAllDockerActiveContainer());
-        String result = unixProcessor.executeCommand("service docker restart");
-        log.info("Restart Docker Engin.");
+        String result = unixProcessor.executeCommand("sudo service docker restart");
+        log.info("Restart Docker Engine.");
         for (ContainerModel containerModel : containerModelList) {
           result +=  startDockerContainer(containerModel.getId());
         }

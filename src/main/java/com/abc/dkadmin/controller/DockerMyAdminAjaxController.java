@@ -76,7 +76,7 @@ public class DockerMyAdminAjaxController {
           }
             return "Execute command success.";
         } catch (Exception ex) {
-            handleErrorResponse(response, HttpStatus.BAD_REQUEST.value(), "Can execute command ");
+            handleErrorResponse(response, HttpStatus.BAD_REQUEST.value(), "Can not execute command " + ex.getMessage());
         }
         return null;
     }
