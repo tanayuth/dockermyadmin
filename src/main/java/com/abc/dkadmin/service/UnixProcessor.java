@@ -2,6 +2,8 @@ package com.abc.dkadmin.service;
 
 import com.abc.dkadmin.exception.DockerMyAdminException;
 import com.abc.dkadmin.properties.DockerMyAdminProperties;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -14,6 +16,8 @@ import java.io.PrintWriter;
 @Component
 public class UnixProcessor {
 
+    private static final Logger log = LoggerFactory.getLogger(UnixProcessor.class);
+
     private static final String INCORRECT_PASSWORD = "Sorry, try again.";
 
     private static final String PASSWORD_FORM = "[sudo] password for";
@@ -22,6 +26,9 @@ public class UnixProcessor {
     private DockerMyAdminProperties dockerMyAdminProperties;
 
     public String executeCommand(String command) {
+
+        log.info("Execute : " + command);
+
         Process process = runProcess(command);
 
         //Authorize super user

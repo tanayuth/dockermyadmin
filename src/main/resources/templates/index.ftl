@@ -189,24 +189,24 @@
             <div class="row">
                 <#if imageMap[image.imageId]??>
                     <#list imageMap[image.imageId] as container>
-                        <div style="float: left; width: 20%">
+                        <div style="float: left; width: 245px">
                             <article class="item">
                                 <a href="" title="remove container">
                                     <#if container.status?contains("Up")>
-                                        <div class="fit" style="background-color:#58ff8e;padding-right: 10px"
+                                        <div class="fit" style="background-color:#59D481;padding-right: 10px; border-radius: 0.35em 0.35em 0 0;"
                                              align="right">
                                             <span class="icon fa-times-circle-o"
                                                   onclick="deleteContainer('${container.id}')"></span>
                                         </div>
                                     <#else >
-                                        <div class="fit" style="background-color:#ff919f;padding-right: 10px"
+                                        <div class="fit" style="background-color:#ff919f;padding-right: 10px; border-radius: 0.35em 0.35em 0 0;"
                                              align="right">
                                             <span class="icon fa-times-circle-o"
                                                   onclick="deleteContainer('${container.id}')"></span>
                                         </div>
                                     </#if>
                                 </a>
-                                <header style="padding-left: 10px; padding-right: 10px">
+                                <header style="padding-left: 10px; padding-right: 10px; border-radius: 0 0 0.5em 0.5em;">
                                     <table style="text-align: left;">
                                         <tr>
                                             <td>Id:</td>
@@ -232,7 +232,7 @@
                     <article class="item">
                         <a href="#top"
                            onclick="return createContainer('${image.imageId}', '${image.repository}:${image.tag?trim}');">
-                            <div class="fit" style="background-color:#8cd8ff; padding-left: 20px; padding-right: 20px">
+                            <div class="fit" style="background-color:#8cd8ff; padding-left: 20px; padding-right: 20px; border-radius: 0.35em;">
                                 <span class="icon fa-plus-circle"> Create new container</span>
                             </div>
                         </a>
