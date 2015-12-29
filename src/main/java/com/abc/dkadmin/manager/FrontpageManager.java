@@ -1,9 +1,7 @@
 package com.abc.dkadmin.manager;
 
-import com.abc.dkadmin.model.ConfigModel;
 import com.abc.dkadmin.model.ContainerModel;
 import com.abc.dkadmin.model.ImageModel;
-import com.abc.dkadmin.service.dao.ConfigDAO;
 import com.abc.dkadmin.service.dao.ContainerDAO;
 import com.abc.dkadmin.service.dao.ImageDAO;
 import com.abc.dkadmin.transport.FrontpageTransport;
@@ -24,9 +22,6 @@ public class FrontpageManager {
     @Autowired
     private ImageDAO imageDAO;
 
-    @Autowired
-    private ConfigDAO configDAO;
-
     public Map<String, List<FrontpageTransport>> buildTransport() {
         Map<String, List<FrontpageTransport>> imageMap = new HashMap<>();
         List<ImageModel> imageModelList = imageDAO.findAllImages();
@@ -41,10 +36,6 @@ public class FrontpageManager {
                         frontpageContainerTransport.setName(containerModel.getName());
                         frontpageContainerTransport.setId(containerModel.getId());
                         frontpageContainerTransport.setStatus(containerModel.getStatus());
-                        ConfigModel configModelList = configDAO.findByContainerId(containerModel.getId());
-                        if (configModelList != null) {
-                            frontpageContainerTransport.setConfiguration(configModelList.getOther());
-                        }
                         frontpageContainerTransport.setRepository(imageModel.getRepository());
                         frontpageContainerTransport.setTag(imageModel.getTag());
                         frontpageContainerTransportList.add(frontpageContainerTransport);

@@ -5,7 +5,6 @@ public class FrontpageTransport {
     private String id;
     private String status;
     private String name;
-    private String configuration;
     private String repository;
     private String tag;
 
@@ -31,14 +30,6 @@ public class FrontpageTransport {
 
     public void setName(String name) {
         this.name = name;
-    }
-
-    public String getConfiguration() {
-        return configuration;
-    }
-
-    public void setConfiguration(String configuration) {
-        this.configuration = configuration;
     }
 
     public String getRepository() {
