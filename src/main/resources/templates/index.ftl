@@ -179,7 +179,7 @@
 
             <header>
                 <div style="float: right;">
-                    <a href="" title="remove image" onclick="deleteImage('${image.repository}:${image.tag?trim}')">
+                    <a href="#" title="remove image" onclick="deleteImage('${image.repository}:${image.tag?trim}')">
                         <span class="icon fa-times-circle-o"></span>
                     </a>
                 </div>
@@ -194,7 +194,7 @@
                     <#list imageMap[image.imageId] as container>
                         <div style="float: left; width: 245px">
                             <article class="item">
-                                <a href="" title="remove container">
+                                <a href="#" title="remove container">
                                     <#if container.status?contains("Up")>
                                         <div class="fit" style="background-color:#59D481;padding-right: 10px; border-radius: 0.35em 0.35em 0 0;"
                                              align="right">
