@@ -183,7 +183,7 @@
                         <span class="icon fa-times-circle-o"></span>
                     </a>
                 </div>
-                <h2>${image.repository}:${image.tag?trim}</h2>
+                <h2>${image.repository}:${image.tag?trim}</h2> <a href="" onclick="updateImageAjaxCall('${image.repository}:${image.tag?trim}');">update</a>
             </header>
 
             <div class="row">
@@ -353,6 +353,38 @@
         }
     }
 
+    function updateImageAjaxCall(imageName) {
+        if (imageName.length == 0) {
+            $('#alert-warning-message').text("Pleas input docker image name !!!!");
+            $('.alert-warning').fadeIn(500, function () {
+                $(this).delay(3000).fadeOut(500);
+            });
+        } else {
+            $("#loading").show();
+            $("#pullButton").hide();
+            var endpoint = "ajax/pullimage?imagename=" + imageName;
+            $.ajax({
+                url: endpoint,
+                type: "POST",
+                success: function (msg) {
+                    $('#alert-success-message').text(msg);
+                    $('.alert-success').fadeIn(500, function () {
+                        $(this).delay(3000).fadeOut(500);
+                        location.reload();
+                    });
+                },
+                error: function (jqXHR) {
+                    var message = (jqXHR.responseText != null && jqXHR.responseText != "") ? jqXHR.responseText :
+                            jqXHR.statusText;
+                    $('#alert-danger-message').text(message);
+                    $('.alert-danger').fadeIn(500, function () {
+                        $(this).delay(3000).fadeOut(500);
+                    });
+                }
+            });
+        }
+    }
+
     function pullImageAjaxCall() {
         if ($('#pullImage').val().length == 0) {
             $('#alert-warning-message').text("Pleas input docker image name !!!!");
@@ -390,6 +422,10 @@
         }
 
     }
+
+
+
+
     function stopContainer(containerId) {
         var endpoint = "ajax/container/stop?containerid=" + containerId;
         $.ajax({
