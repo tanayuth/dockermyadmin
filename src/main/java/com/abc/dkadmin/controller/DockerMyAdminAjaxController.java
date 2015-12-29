@@ -48,7 +48,8 @@ public class DockerMyAdminAjaxController {
         try {
             String result = dockerCommandWrapper.pullDockerImage(imageName);
             log.info(result);
-            if (result.toLowerCase().contains("error") || result.toLowerCase().contains("Conflicting") || result.toLowerCase().contains("--help")) {
+            if (result.toLowerCase().contains("error") || result.toLowerCase().contains("Conflicting") ||
+                    result.toLowerCase().contains("--help")) {
                 handleErrorResponse(response, HttpStatus.BAD_REQUEST.value(), result);
                 return null;
             }
@@ -62,16 +63,19 @@ public class DockerMyAdminAjaxController {
     @RequestMapping(value = "/executecommand", method = RequestMethod.POST)
     @ResponseBody
     public String executeCommand(@RequestParam(value = "id") String id,
-                            HttpServletResponse response) {
+                                 HttpServletResponse response) {
         try {
-          switch (id) {
-              case "1" : dockerCommandWrapper.deleteAllUnusedContainers();
-                         break;
-              case "2" : dockerCommandWrapper.deleteNoneAsciiChars();
-                          break;
-              case "3" : dockerCommandWrapper.deleteUntaggedImages();
-                         break;
-          }
+            switch (id) {
+                case "1":
+                    dockerCommandWrapper.deleteAllUnusedContainers();
+                    break;
+                case "2":
+                    dockerCommandWrapper.deleteNoneAsciiChars();
+                    break;
+                case "3":
+                    dockerCommandWrapper.deleteUntaggedImages();
+                    break;
+            }
             return "Execute command success.";
         } catch (Exception ex) {
             handleErrorResponse(response, HttpStatus.BAD_REQUEST.value(), "Can execute command ");
@@ -129,11 +133,11 @@ public class DockerMyAdminAjaxController {
 
     @RequestMapping(value = "/container/delete/{containerid}", method = RequestMethod.POST)
     @ResponseBody
-    public ContainerModel deleteContainer(@PathVariable(value = "containerid") String containrId) {
+    public String deleteContainer(@PathVariable(value = "containerid") String containerId) {
 
-        String result = dockerCommandWrapper.removeDockerContainer(containrId);
-        validateContainerResult(result, containrId);
-        return containerDAO.getContainerById(containrId);
+        String result = dockerCommandWrapper.removeDockerContainer(containerId);
+        validateContainerResult(result, containerId);
+        return "Container id " + containerId + " was deleted.";
     }
 
     private boolean validateContainerResult(String resultMessage, String containerId) {
@@ -147,7 +151,7 @@ public class DockerMyAdminAjaxController {
         return true;
     }
 
-    @RequestMapping(value ="/createcontainer",  method = RequestMethod.POST)
+    @RequestMapping(value = "/createcontainer", method = RequestMethod.POST)
     @ResponseBody
     public String createContainer(@RequestParam(value = "imageid") String imageId,
                                   @RequestParam(value = "parameter") String parameter,
@@ -157,7 +161,7 @@ public class DockerMyAdminAjaxController {
             log.debug("Image model {} ", imageModel);
             log.debug("Command {} ", parameter);
             if (imageModel == null) {
-                handleErrorResponse(response, HttpStatus.BAD_REQUEST.value(), "Can not found image : " + imageId );
+                handleErrorResponse(response, HttpStatus.BAD_REQUEST.value(), "Can not found image : " + imageId);
                 return null;
             }
 
@@ -174,7 +178,8 @@ public class DockerMyAdminAjaxController {
             }
             return "Create containner for image = " + imageId + " Success. ";
         } catch (Exception ex) {
-            handleErrorResponse(response, HttpStatus.BAD_REQUEST.value(), "Can not create container for image " + imageId + ", " + ex.getMessage());
+            handleErrorResponse(response, HttpStatus.BAD_REQUEST.value(),
+                                "Can not create container for image " + imageId + ", " + ex.getMessage());
             return null;
         }
     }

@@ -297,28 +297,6 @@
         return false;
     });
 
-    function deleteContainer(containerId) {
-        var endpoint = "ajax/container/delete/" + containerId;
-        $.ajax({
-            url: endpoint,
-            type: "POST",
-            success: function (msg) {
-                $('#alert-success-message').text("Container id: " + msg.id + " deledted.");
-                $('.alert-success').fadeIn(500, function () {
-                    $(this).delay(3000).fadeOut(500, function () {
-                        window.location.reload(true);
-                    });
-                });
-            },
-            error: function (msg) {
-                $('#alert-danger-message').text(msg.responseText);
-                $('.alert-danger').fadeIn(500, function () {
-                    $(this).delay(3000).fadeOut(500);
-                });
-            }
-        });
-    }
-
     function utilityCommandAjaxCall() {
         var id = $('#utilityCommandDropdown').val();
         if (id == 0) {
@@ -430,9 +408,6 @@
 
     }
 
-
-
-
     function stopContainer(containerId) {
         var endpoint = "ajax/container/stop?containerid=" + containerId;
         $.ajax({
@@ -475,6 +450,28 @@
                 });
             }
 
+        });
+    }
+
+    function deleteContainer(containerId) {
+        var endpoint = "ajax/container/delete/" + containerId;
+        $.ajax({
+            url: endpoint,
+            type: "POST",
+            success: function (message) {
+                $('#alert-success-message').text(message);
+                $('.alert-success').fadeIn(500, function () {
+                    $(this).delay(3000).fadeOut(500, function () {
+                        window.location.reload(true);
+                    });
+                });
+            },
+            error: function (msg) {
+                $('#alert-danger-message').text(msg.responseText);
+                $('.alert-danger').fadeIn(500, function () {
+                    $(this).delay(3000).fadeOut(500);
+                });
+            }
         });
     }
 
@@ -525,6 +522,7 @@
         $("#createContainerDiv").show();
         $("#pullImageDiv").hide();
         $("#utilityCommandDiv").hide();
+        $("#createContainer").focus();;
     }
 
     function gotoHomePage() {
