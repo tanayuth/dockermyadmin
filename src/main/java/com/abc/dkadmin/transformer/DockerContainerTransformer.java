@@ -19,6 +19,8 @@ public class DockerContainerTransformer {
 
     private static final String EXITED_STATUS = "Exited";
 
+    private static final String CREATED = "Created";
+
     public List<ContainerModel> transform(String consoleOutput) {
         if (StringUtils.isBlank(consoleOutput)) {
             return Collections.emptyList();
@@ -41,7 +43,7 @@ public class DockerContainerTransformer {
             //Set to model
             for (String field : containerFields) {
                 if (StringUtils.isNotBlank(containerModel.getStatus()) &&
-                        containerModel.getStatus().contains(EXITED_STATUS)) {
+                        (containerModel.getStatus().contains(EXITED_STATUS) || containerModel.getStatus().contains(CREATED))) {
                     containerModel =
                             setContainerModelField(containerModel, containerFields.indexOf(field), field.trim(), true);
                 } else {
