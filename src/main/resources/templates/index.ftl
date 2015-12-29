@@ -146,7 +146,7 @@
     <section id="${image.imageId}" class="two">
         <div class="container">
             <header>
-                <div align="right">
+                <div style="float: right;">
                     <a href="" title="remove image" onclick="deleteImage('${image.repository}:${image.tag?trim}')">
                         <span class="icon fa-times-circle-o"></span>
                     </a>
@@ -157,7 +157,7 @@
             <div class="row">
                 <#if imageMap[image.imageId]??>
                     <#list imageMap[image.imageId] as container>
-                        <div style="float: left;">
+                        <div style="float: left; width: 20%">
                             <article class="item">
                                 <a href="" title="remove container">
                                     <#if container.status?contains("Up")>
