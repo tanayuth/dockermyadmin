@@ -48,7 +48,7 @@ public class DockerMyAdminAjaxController {
         try {
             String result = dockerCommandWrapper.pullDockerImage(imageName);
             log.info(result);
-            if (result.toLowerCase().contains("error")) {
+            if (result.toLowerCase().contains("error") || result.toLowerCase().contains("Conflicting")) {
                 handleErrorResponse(response, HttpStatus.BAD_REQUEST.value(), result);
                 return null;
             }
