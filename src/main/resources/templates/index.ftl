@@ -268,16 +268,16 @@
             type: "POST",
             success: function (msg) {
                 $('#alert-success-message').text("Container id: " + msg.id + " deledted.");
-                $('.alert-success').fadeIn(1000, function () {
-                    $(this).delay(5000).fadeOut(1000, function () {
+                $('.alert-success').fadeIn(500, function () {
+                    $(this).delay(3000).fadeOut(500, function () {
                         window.location.reload(true);
                     });
                 });
             },
             error: function (msg) {
                 $('#alert-danger-message').text(msg.responseText);
-                $('.alert-danger').fadeIn(1000, function () {
-                    $(this).delay(3000).fadeOut(1000);
+                $('.alert-danger').fadeIn(500, function () {
+                    $(this).delay(3000).fadeOut(500);
                 });
             }
         });
@@ -286,8 +286,8 @@
     function pullImageAjaxCall() {
         if ($('#pullImage').val().length == 0) {
             $('#alert-warning-message').text("Pleas input docker image name !!!!");
-            $('.alert-warning').fadeIn(1000, function () {
-                $(this).delay(5000).fadeOut(1000);
+            $('.alert-warning').fadeIn(500, function () {
+                $(this).delay(3000).fadeOut(500);
             });
         } else {
             $("#loading").show();
@@ -300,8 +300,8 @@
                     $("#pullButton").show();
                     $("#loading").hide();
                     $('#alert-success-message').text(msg);
-                    $('.alert-success').fadeIn(1000, function () {
-                        $(this).delay(5000).fadeOut(1000);
+                    $('.alert-success').fadeIn(500, function () {
+                        $(this).delay(3000).fadeOut(500);
                         location.reload();
                     });
 
@@ -312,8 +312,8 @@
                     $("#pullButton").show();
                     $("#loading").hide();
                     $('#alert-danger-message').text(message);
-                    $('.alert-danger').fadeIn(1000, function () {
-                        $(this).delay(5000).fadeOut(1000);
+                    $('.alert-danger').fadeIn(500, function () {
+                        $(this).delay(3000).fadeOut(500);
                     });
                 }
             });
@@ -327,16 +327,16 @@
             type: "POST",
             success: function (msg) {
                 $('#alert-success-message').text(msg);
-                $('.alert-success').fadeIn(1000, function () {
-                    $(this).delay(5000).fadeOut(1000, function () {
+                $('.alert-success').fadeIn(500, function () {
+                    $(this).delay(3000).fadeOut(500, function () {
                         window.location.reload(true);
                     });
                 });
             },
             error: function (msg) {
                 $('#alert-danger-message').text(msg);
-                $('.alert-danger').fadeIn(1000, function () {
-                    $(this).delay(3000).fadeOut(1000);
+                $('.alert-danger').fadeIn(500, function () {
+                    $(this).delay(3000).fadeOut(500);
                 });
             }
         });
@@ -349,16 +349,16 @@
             type: "POST",
             success: function (msg) {
                 $('#alert-success-message').text("Container id: " + msg.id + " restarted.");
-                $('.alert-success').fadeIn(1000, function () {
-                    $(this).delay(5000).fadeOut(1000, function () {
+                $('.alert-success').fadeIn(500, function () {
+                    $(this).delay(3000).fadeOut(500, function () {
                         window.location.reload(true);
                     });
                 });
             },
             error: function (msg) {
                 $('#alert-danger-message').text(msg.responseText);
-                $('.alert-danger').fadeIn(1000, function () {
-                    $(this).delay(3000).fadeOut(1000);
+                $('.alert-danger').fadeIn(500, function () {
+                    $(this).delay(3000).fadeOut(500);
                 });
             }
 
@@ -372,16 +372,16 @@
             type: "POST",
             success: function (msg) {
                 $('#alert-success-message').text("Container id: " + msg.id + " started.");
-                $('.alert-success').fadeIn(1000, function () {
-                    $(this).delay(5000).fadeOut(1000, function () {
+                $('.alert-success').fadeIn(500, function () {
+                    $(this).delay(3000).fadeOut(500, function () {
                         window.location.reload(true);
                     });
                 });
             },
             error: function (msg) {
                 $('#alert-danger-message').text(msg.responseText);
-                $('.alert-danger').fadeIn(1000, function () {
-                    $(this).delay(3000).fadeOut(1000);
+                $('.alert-danger').fadeIn(500, function () {
+                    $(this).delay(3000).fadeOut(500);
                 });
             }
 
@@ -397,8 +397,8 @@
             },
             error: function () {
                 $('#alert-danger-message').text("Error: cannot delete image" + imageName);
-                $('.alert-danger').fadeIn(1000, function () {
-                    $(this).delay(3000).fadeOut(1000);
+                $('.alert-danger').fadeIn(500, function () {
+                    $(this).delay(3000).fadeOut(500);
                 });
             }
         });
@@ -421,8 +421,8 @@
     function createContainerAjaxCall() {
         if ($('#createContainer').val().length == 0) {
             $('#alert-warning-message').text("Pleas input parameter !!!!");
-            $('.alert-warning').fadeIn(1000, function () {
-                $(this).delay(5000).fadeOut(1000);
+            $('.alert-warning').fadeIn(500, function () {
+                $(this).delay(3000).fadeOut(500);
             });
         } else {
             var endpoint = "ajax/createcontainer?imageid=" + globalImageId + "&parameter=" + $('#createContainer').val();
@@ -435,8 +435,8 @@
                     $("#loading2").hide();
                     $("#createContainerButton").show();
                     $('#alert-success-message').text(msg);
-                    $('.alert-success').fadeIn(1000, function () {
-                        $(this).delay(5000).fadeOut(1000, function () {
+                    $('.alert-success').fadeIn(500, function () {
+                        $(this).delay(3000).fadeOut(500, function () {
                             location.reload();
                         });
                     });
@@ -446,8 +446,8 @@
                     $("#createContainerButton").show();
                     var message = (jqXHR.responseText != null && jqXHR.responseText != "") ? jqXHR.responseText : jqXHR.statusText;
                     $('#alert-danger-message').text(message);
-                    $('.alert-danger').fadeIn(1000, function () {
-                        $(this).delay(3000).fadeOut(1000);
+                    $('.alert-danger').fadeIn(500, function () {
+                        $(this).delay(3000).fadeOut(500);
                     });
                 }
             });
