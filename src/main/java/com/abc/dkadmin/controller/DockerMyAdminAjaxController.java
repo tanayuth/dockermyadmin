@@ -140,7 +140,14 @@ public class DockerMyAdminAjaxController {
                 handleErrorResponse(response, HttpStatus.BAD_REQUEST.value(), "Can not found image : " + imageId );
                 return null;
             }
-            String result = dockerCommandWrapper.createDockerContainer(parameter, imageId);
+
+            parameter = parameter.replace(imageId, "");
+            if (parameter.contains(imageModel.getRepository() + ":" + imageModel.getTag())) {
+                parameter = parameter.replace(imageModel.getRepository() + ":" + imageModel.getTag(), "");
+            } else if (parameter.contains(imageModel.getRepository())) {
+                parameter = parameter.replace(imageModel.getRepository(), "");
+            }
+            String result = dockerCommandWrapper.createDockerContainer(parameter.trim(), imageId);
             if (result.toLowerCase().contains("error")) {
                 handleErrorResponse(response, HttpStatus.BAD_REQUEST.value(), result);
                 return null;

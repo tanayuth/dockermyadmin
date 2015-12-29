@@ -44,7 +44,7 @@
 
         <!-- Logo -->
         <div id="logo">
-            <span class="image avatar48"><img src="images/avatar.jpg" alt=""/></span>
+            <span class="image avatar48"><img src="images/docker-icon.png" alt=""/></span>
 
             <h1 id="title">Docker My Admin</h1>
 
@@ -404,7 +404,7 @@
         });
     }
 
-    var autoRefresh = setTimeout(function() {location.reload()}, 60000);
+//    var autoRefresh = setTimeout(function() {location.reload()}, 60000);
 
     function createContainer(imageId, containerName) {
         globalImageId = imageId;
