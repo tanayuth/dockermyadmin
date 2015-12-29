@@ -97,5 +97,26 @@ public class DockerCommandWrapper {
         return result;
     }
 
+    public String deleteNoneAsciiChars() {
+        String result = unixProcessor.executeCommand("docker rmi $(docker images | grep \"^<none>\" | awk '{print $3}')");
+        log.info("Delete none-asciee chars ");
+        log.info("Result : " + result);
+        return result;
+    }
+
+    public String deleteAllUnusedContainers() {
+        String result = unixProcessor.executeCommand("docker ps -q -a | xargs docker rm");
+        log.info("Delete unused container ");
+        log.info("Result : " + result);
+        return result;
+    }
+
+    public String deleteUntaggedImages() {
+        String result = unixProcessor.executeCommand("docker ps -q -a | xargs docker rm");
+        log.info("Delete unused container ");
+        log.info("Result : " + result);
+        return result;
+    }
+
 
 }
