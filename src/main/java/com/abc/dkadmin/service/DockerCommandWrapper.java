@@ -91,6 +91,8 @@ public class DockerCommandWrapper {
     }
 
     public String createDockerContainer(String param, String imageId) {
+        param = param.replaceAll("--rm", " ");
+        param = param.replaceAll("-d", " ");
         String result = unixProcessor.executeCommand("docker run -d " + param + " " + imageId);
         log.info("create docker container: docker run -d " + param + " " + imageId);
         log.info("Result : " + result);

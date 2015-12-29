@@ -123,7 +123,7 @@
             <div id="createContainerDiv" style="display: none">
                 <header>
                     <h2 class="alt"><strong> <div id="containerDiv">Container Name</div></strong></h2>
-                    <p>docker run -d <br/></p>
+                    <p>docker run -d (exclude image name/id)<br/></p>
                     <form method="post" id="createContainerForm" onsubmit="return false">
                         <input type="text" id="createContainer" name="createContainer" placeholder="Ex. -p 9001:8080 -p 50000:50000 -v /var/application/:/var/application_home"/>
                     </form>
