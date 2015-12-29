@@ -183,7 +183,10 @@
                         <span class="icon fa-times-circle-o"></span>
                     </a>
                 </div>
-                <h2>${image.repository}:${image.tag?trim}</h2> <a href="" onclick="updateImageAjaxCall('${image.repository}:${image.tag?trim}');">update</a>
+                <h2>${image.repository}:${image.tag?trim}</h2>
+                <a href="#top" onclick="updateImageAjaxCall('${image.repository}:${image.tag?trim}');" title="update image">
+                    <span class="icon fa-refresh"></span>
+                </a>
             </header>
 
             <div class="row">
