@@ -364,6 +364,9 @@
                 $(this).delay(3000).fadeOut(500);
             });
         } else {
+            $('#pullImageDiv').show();
+            $('#utilityCommandDiv').hide();
+            $('#createContainerDiv').hide();
             $("#loading").show();
             $("#pullButton").hide();
             var endpoint = "ajax/pullimage?imagename=" + imageName;
