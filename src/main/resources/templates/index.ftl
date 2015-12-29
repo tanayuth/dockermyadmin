@@ -339,6 +339,7 @@
                     $('#alert-success-message').text(msg);
                     $('.alert-success').fadeIn(500, function () {
                         $(this).delay(3000).fadeOut(500);
+                        location.reload();
                     });
 
                 },
