@@ -1,14 +1,20 @@
 package com.abc.dkadmin.service;
 
+import com.abc.dkadmin.model.ContainerModel;
+import com.abc.dkadmin.transformer.DockerContainerTransformer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import java.util.List;
+
 @Component
 public class DockerCommandWrapper {
 
     private static final Logger log = LoggerFactory.getLogger(DockerCommandWrapper.class);
+
+    private DockerContainerTransformer containerTransformer;
 
     @Autowired
     private UnixProcessor unixProcessor;
@@ -116,6 +122,17 @@ public class DockerCommandWrapper {
     public String deleteUntaggedImages() {
         String result = unixProcessor.executeCommand("docker ps -q -a | xargs docker rm");
         log.info("Delete unused container ");
+        log.info("Result : " + result);
+        return result;
+    }
+
+    public String restartDockerEngine() {
+        List<ContainerModel> containerModelList = containerTransformer.transform(listAllDockerActiveContainer());
+        String result = unixProcessor.executeCommand("service docker restart");
+        log.info("Restart Docker Engin.");
+        for (ContainerModel containerModel : containerModelList) {
+          result +=  startDockerContainer(containerModel.getId());
+        }
         log.info("Result : " + result);
         return result;
     }

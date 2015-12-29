@@ -71,6 +71,8 @@ public class DockerMyAdminAjaxController {
                           break;
               case "3" : dockerCommandWrapper.deleteUntaggedImages();
                          break;
+              case "4" : dockerCommandWrapper.restartDockerEngine();
+                  break;
           }
             return "Execute command success.";
         } catch (Exception ex) {
