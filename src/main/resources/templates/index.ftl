@@ -76,7 +76,7 @@
 
                 <li><a href="#top" id="utility" onclick="showUtilityDiv();"
                        class="skel-layers-ignoreHref"><span
-                        class="icon fa-th">Utility Commands</span></a></li>
+                        class="icon fa-cogs">Utility Commands</span></a></li>
 
             <#list imageModelList as image>
                 <li><a href="#${image.imageId}" id="${image.imageId}-link"
