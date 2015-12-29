@@ -178,15 +178,11 @@
                                     <table style="text-align: left;">
                                         <tr>
                                             <td>Id:</td>
-                                            <td>${container.id}</td>
+                                            <td> ${container.id}</td>
                                         </tr>
                                         <tr>
                                             <td>Name:</td>
-                                            <td>${container.name!"Not Found"}</td>
-                                        </tr>
-                                        <tr>
-                                            <td>Configuration:</td>
-                                            <td>${container.configuration!""}</td>
+                                            <td> ${container.name!"Not Found"}</td>
                                         </tr>
                                     </table>
                                     <#if container.status?contains("Up")>
