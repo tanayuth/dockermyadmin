@@ -102,6 +102,21 @@
 
 <!-- Main -->
 <div id="main">
+    <div id="overlay">
+        <div id="overlay-confirm">
+            <div class="container" style="display: inline-flex;">
+                <article class="item">
+                    <div class="fit" style="background-color:#fff252; padding-left: 20px; padding-right: 20px; border-radius: 0.35em 0.35em 0 0;">
+                        <span class="icon fa-exclamation-triangle"> Please confirm to continue</span>
+                    </div>
+                    <header style="padding-left: 10px; padding-right: 10px; border-radius: 0 0 0.5em 0.5em;">
+                        <button id="cancelBtn">Cancel</button>
+                        <button id="okBtn">OK</button>
+                    </header>
+                </article>
+            </div>
+        </div>
+    </div>
     <!-- Intro -->
     <section id="top" class="one dark cover">
         <div class="container">
@@ -410,69 +425,91 @@
     }
 
     function stopContainer(containerId) {
-        var endpoint = "ajax/container/stop?containerid=" + containerId;
-        $.ajax({
-            url: endpoint,
-            type: "POST",
-            success: function (msg) {
-                $('#alert-success-message').text(msg);
-                $('.alert-success').fadeIn(500, function () {
-                    $(this).delay(3000).fadeOut(500, function () {
-                        window.location.reload(true);
+        $("#overlay").show();
+        $( "#cancelBtn" ).click(function() {
+            $("#overlay").hide();
+        });
+        $( "#okBtn" ).click(function() {
+            $("#overlay").hide();
+
+            var endpoint = "ajax/container/stop?containerid=" + containerId;
+            $.ajax({
+                url: endpoint,
+                type: "POST",
+                success: function (msg) {
+                    $('#alert-success-message').text(msg);
+                    $('.alert-success').fadeIn(500, function () {
+                        $(this).delay(3000).fadeOut(500, function () {
+                            window.location.reload(true);
+                        });
                     });
-                });
-            },
-            error: function (msg) {
-                $('#alert-danger-message').text(msg);
-                $('.alert-danger').fadeIn(500, function () {
-                    $(this).delay(3000).fadeOut(500);
-                });
-            }
+                },
+                error: function (msg) {
+                    $('#alert-danger-message').text(msg);
+                    $('.alert-danger').fadeIn(500, function () {
+                        $(this).delay(3000).fadeOut(500);
+                    });
+                }
+            });
         });
     }
 
     function restartContainer(containerId) {
-        var endpoint = "ajax/container/restart/" + containerId;
-        $.ajax({
-            url: endpoint,
-            type: "POST",
-            success: function (msg) {
-                $('#alert-success-message').text("Container id: " + msg.id + " restarted.");
-                $('.alert-success').fadeIn(500, function () {
-                    $(this).delay(3000).fadeOut(500, function () {
-                        window.location.reload(true);
+        $("#overlay").show();
+        $( "#cancelBtn" ).click(function() {
+            $("#overlay").hide();
+        });
+        $( "#okBtn" ).click(function() {
+            $("#overlay").hide();
+            var endpoint = "ajax/container/restart/" + containerId;
+            $.ajax({
+                url: endpoint,
+                type: "POST",
+                success: function (msg) {
+                    $('#alert-success-message').text("Container id: " + msg.id + " restarted.");
+                    $('.alert-success').fadeIn(500, function () {
+                        $(this).delay(3000).fadeOut(500, function () {
+                            window.location.reload(true);
+                        });
                     });
-                });
-            },
-            error: function (msg) {
-                $('#alert-danger-message').text(msg.responseText);
-                $('.alert-danger').fadeIn(500, function () {
-                    $(this).delay(3000).fadeOut(500);
-                });
-            }
+                },
+                error: function (msg) {
+                    $('#alert-danger-message').text(msg.responseText);
+                    $('.alert-danger').fadeIn(500, function () {
+                        $(this).delay(3000).fadeOut(500);
+                    });
+                }
 
+            });
         });
     }
 
     function deleteContainer(containerId) {
-        var endpoint = "ajax/container/delete/" + containerId;
-        $.ajax({
-            url: endpoint,
-            type: "POST",
-            success: function (message) {
-                $('#alert-success-message').text(message);
-                $('.alert-success').fadeIn(500, function () {
-                    $(this).delay(3000).fadeOut(500, function () {
-                        window.location.reload(true);
+        $("#overlay").show();
+        $( "#cancelBtn" ).click(function() {
+            $("#overlay").hide();
+        });
+        $( "#okBtn" ).click(function() {
+            $("#overlay").hide();
+            var endpoint = "ajax/container/delete/" + containerId;
+            $.ajax({
+                url: endpoint,
+                type: "POST",
+                success: function (message) {
+                    $('#alert-success-message').text(message);
+                    $('.alert-success').fadeIn(500, function () {
+                        $(this).delay(3000).fadeOut(500, function () {
+                            window.location.reload(true);
+                        });
                     });
-                });
-            },
-            error: function (msg) {
-                $('#alert-danger-message').text(msg.responseText);
-                $('.alert-danger').fadeIn(500, function () {
-                    $(this).delay(3000).fadeOut(500);
-                });
-            }
+                },
+                error: function (msg) {
+                    $('#alert-danger-message').text(msg.responseText);
+                    $('.alert-danger').fadeIn(500, function () {
+                        $(this).delay(3000).fadeOut(500);
+                    });
+                }
+            });
         });
     }
 
@@ -500,18 +537,26 @@
     }
 
     function deleteImage(imageName) {
-        var endpoint = "ajax/image/delete?imagename=" + imageName;
-        $.ajax({
-            url: endpoint,
-            type: "DELETE",
-            success: function () {
-            },
-            error: function () {
-                $('#alert-danger-message').text("Error: cannot delete image" + imageName);
-                $('.alert-danger').fadeIn(500, function () {
-                    $(this).delay(3000).fadeOut(500);
-                });
-            }
+        $("#overlay").show();
+        $( "#cancelBtn" ).click(function() {
+            $("#overlay").hide();
+        });
+        $( "#okBtn" ).click(function() {
+            $("#overlay").hide();
+            var endpoint = "ajax/image/delete?imagename=" + imageName;
+            $.ajax({
+                url: endpoint,
+                type: "DELETE",
+                success: function () {
+                    window.location.reload(true);
+                },
+                error: function () {
+                    $('#alert-danger-message').text("Error: cannot delete image" + imageName);
+                    $('.alert-danger').fadeIn(500, function () {
+                        $(this).delay(3000).fadeOut(500);
+                    });
+                }
+            });
         });
     }
 
@@ -523,7 +568,7 @@
         $("#createContainerDiv").show();
         $("#pullImageDiv").hide();
         $("#utilityCommandDiv").hide();
-        $("#createContainer").focus();;
+        $("#createContainer").focus();
     }
 
     function gotoHomePage() {
