@@ -99,9 +99,9 @@
     </div>
 
 </div>
-
 <!-- Main -->
 <div id="main">
+    <div id="whole-page-overlay"></div>
     <div id="overlay">
         <div id="overlay-confirm">
             <div class="container" style="display: inline-flex;">
@@ -364,6 +364,7 @@
             $("#loading").show();
             $("#pullButton").hide();
             var endpoint = "ajax/pullimage?imagename=" + imageName;
+            $("#whole-page-overlay").show();
             $.ajax({
                 url: endpoint,
                 type: "POST",
@@ -373,6 +374,7 @@
                         $(this).delay(3000).fadeOut(500);
                         location.reload();
                     });
+                    $("#whole-page-overlay").hide();
                 },
                 error: function (jqXHR) {
                     var message = (jqXHR.responseText != null && jqXHR.responseText != "") ? jqXHR.responseText :
@@ -381,6 +383,7 @@
                     $('.alert-danger').fadeIn(500, function () {
                         $(this).delay(3000).fadeOut(500);
                     });
+                    $("#whole-page-overlay").hide();
                 }
             });
         }
@@ -396,6 +399,7 @@
             $("#loading").show();
             $("#pullButton").hide();
             var endpoint = "ajax/pullimage?imagename=" + $('#pullImage').val();
+            $("#whole-page-overlay").show();
             $.ajax({
                 url: endpoint,
                 type: "POST",
@@ -407,6 +411,7 @@
                         $(this).delay(3000).fadeOut(500);
                         location.reload();
                     });
+                    $("#whole-page-overlay").hide();
 
                 },
                 error: function (jqXHR) {
@@ -418,6 +423,7 @@
                     $('.alert-danger').fadeIn(500, function () {
                         $(this).delay(3000).fadeOut(500);
                     });
+                    $("#whole-page-overlay").hide();
                 }
             });
         }
@@ -515,6 +521,7 @@
 
     function startContainer(containerId) {
         var endpoint = "ajax/container/start/" + containerId;
+        $("#whole-page-overlay").show();
         $.ajax({
             url: endpoint,
             type: "POST",
@@ -525,12 +532,14 @@
                         window.location.reload(true);
                     });
                 });
+                $("#whole-page-overlay").hide();
             },
             error: function (msg) {
                 $('#alert-danger-message').text(msg.responseText);
                 $('.alert-danger').fadeIn(500, function () {
                     $(this).delay(3000).fadeOut(500);
                 });
+                $("#whole-page-overlay").hide();
             }
 
         });
@@ -593,6 +602,7 @@
             var endpoint = "ajax/createcontainer?imageid=" + globalImageId + "&parameter=" + $('#createContainer').val();
             $("#loading2").show();
             $("#createContainerButton").hide();
+            $("#whole-page-overlay").show();
             $.ajax({
                 url: endpoint,
                 type: "POST",
@@ -605,6 +615,7 @@
                             location.reload();
                         });
                     });
+                    $("#whole-page-overlay").hide();
                 },
                 error: function (jqXHR) {
                     $("#loading2").hide();
@@ -614,6 +625,7 @@
                     $('.alert-danger').fadeIn(500, function () {
                         $(this).delay(3000).fadeOut(500);
                     });
+                    $("#whole-page-overlay").hide();
                 }
             });
         }
