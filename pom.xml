@@ -93,6 +93,11 @@
         </dependency>
     </dependencies>
 
+    <scm>
+        <connection>scm:git:ssh://git@github.com/tanayuth/dockermyadmin.git</connection>
+        <developerConnection>scm:git:ssh://git@github.com/tanayuth/dockermyadmin.git</developerConnection>
+    </scm>
+
     <build>
         <plugins>
             <plugin>
